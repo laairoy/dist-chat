@@ -54,9 +54,9 @@ public class SocketList {
     public boolean remove(Socket cli) throws IOException {
         if (userList.contains(cli)) {
             int index = userList.indexOf(cli);
-            userList.remove(cli);
+            userList.remove(index);
             userListNames.remove(index);
-
+            
             enviarLista();
 
             return true;
@@ -76,12 +76,15 @@ public class SocketList {
 
     private void enviarMsg(Socket cli, String msg) throws IOException {
         new PrintStream(cli.getOutputStream()).println(msg);
-        System.out.println("[ENVIANDO] -> " + "["+ cli.getInetAddress() + ":" + cli.getPort() + "] " + msg);
+        System.out.println("[ENVIANDO] -> " + "[" + cli.getInetAddress() + ":" + cli.getPort() + "] " + msg);
     }
 
     public void enviarBroadcast(String msg) throws IOException {
+        System.out.println("[BROADCAST]");
         for (Socket cli : userList) {
+            System.out.print("  ");
             enviarMsg(cli, msg);
         }
+        
     }
 }

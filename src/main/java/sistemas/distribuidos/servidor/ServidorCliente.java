@@ -5,12 +5,10 @@
  */
 package sistemas.distribuidos.servidor;
 
-import java.io.DataInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
+import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.Scanner;
 import sistemas.distribuidos.distchat.JsonCorvert;
 
 /**
@@ -23,23 +21,29 @@ public class ServidorCliente extends Thread {
 
     public ServidorCliente(Socket cliente) {
         this.cliente = cliente;
-        start();
     }
 
     @Override
     public void run() {
-        System.out.println("New Communication Thread Started");
+        System.out.println("[CONEXAO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
 
         try {
-            //PrintStream out = new PrintStream(cliente.getOutputStream());
-            Scanner in = new Scanner(cliente.getInputStream());
-            //DataInputStream in = new DataInputStream(cliente.getInputStream());
 
-            while (in.hasNextLine()) {
-                String msg = in.nextLine();
-                System.out.println("[RECEBENDO] -> " + "["+ cliente.getInetAddress() + ":" + cliente.getPort() + "] " + msg);
+            BufferedReader in = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
+
+            String msg;
+
+            while ((msg = in.readLine()) != null) {
+
+                System.out.println("[RECEBENDO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "] " + msg);
 
                 verificarOperacao(msg);
+            }
+
+            if (msg == null) {
+                System.out.println("[DESCONECTOU] -> " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "] ");
+                SocketList list = SocketList.init();
+                list.remove(cliente);
             }
 
             //out.close();
@@ -58,12 +62,12 @@ public class ServidorCliente extends Thread {
         if (json.getCod().equals("login")) {
             if (sList.add(cliente, json)) {
 
-                System.out.println("<- usuario " + json.getNome() + "conectou");
+                System.out.println("[LOGIN] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]" + " " + json.getNome());
             }
 
         } else if (json.getCod().equals("logout")) {
             if (sList.remove(cliente)) {
-                System.out.println("<- usuario" + json.getNome() + "desconectou");
+                System.out.println("[LOGOUT] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
             }
         }
     }

@@ -24,12 +24,14 @@ public class Servidor {
     }
 
     public void start() throws IOException {
+        System.out.println("[SERVIDOR INICIADO] " + "[PONTA: " + this.porta + "]");
         while (true) {
-            System.out.println("Aguardando...");
             Socket cliente = servidor.accept();
 
-            new ServidorCliente(cliente);
+            ServidorCliente novaConexao = new ServidorCliente(cliente);
+
+            novaConexao.start();
 
         }
-    }    
+    }
 }
