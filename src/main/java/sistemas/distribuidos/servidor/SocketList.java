@@ -41,7 +41,7 @@ public class SocketList {
             JsonCorvert confirmar = new JsonCorvert();
             confirmar.setCod("rlogin");
             confirmar.setStatus("true");
-
+       
             enviarMsg(cli, confirmar.toString());
 
             enviarLista();

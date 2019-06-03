@@ -6,9 +6,11 @@
 package sistemas.distribuidos.distchat;
 
 import java.util.ArrayList;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import static org.json.JSONObject.NULL;
+import sistemas.distribuidos.cliente.ClienteList;
 
 /**
  *
@@ -62,10 +64,11 @@ public class JsonCorvert {
     public void setNome(String nome) {
         json.put("NOME", nome);
     }
-    public void setStatus(String status){
+
+    public void setStatus(String status) {
         json.put("STATUS", status);
     }
-    
+
     public void addToList(String nome, String ip, Integer porta) {
         JSONObject temp = new JSONObject();
         temp.put("NOME", nome);
@@ -75,6 +78,26 @@ public class JsonCorvert {
         list.add(temp);
 
         json.put("LISTACLIENTE", list);
+    }
+
+    public void getList() {
+        //ArrayList<JSONObject> list;
+        //list = new ArrayList<>();
+        JSONArray temp = new JSONArray(json.get("LISTACLIENTE").toString());
+
+        for (Object msg : temp) {
+            list.add(new JSONObject(msg.toString()));
+        }
+        
+        ClienteList cliList = ClienteList.init();
+        cliList.removeAll();
+        for (JSONObject json : list) {
+            cliList.addElement(json.getString("NOME"));
+        }
+
+        System.out.println("testes " + cliList.getElementAt(0));
+        //.addAll(temp.to);
+
     }
 
     @Override

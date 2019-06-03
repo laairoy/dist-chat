@@ -5,6 +5,10 @@
  */
 package sistemas.distribuidos.cliente;
 
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.ListModel;
+
 /**
  *
  * @author laairoy
@@ -15,7 +19,14 @@ public class ClienteChat extends javax.swing.JFrame {
      * Creates new form ClienteChat
      */
     public ClienteChat() {
+        ClienteList list = ClienteList.init();
+        // listClientes = new JList(list);
         initComponents();
+        
+        listClientes.setModel(list);
+        listClientes.setVisibleRowCount(10);
+        
+        //model.addElement("ola mundo");
     }
 
     /**
@@ -81,6 +92,11 @@ public class ClienteChat extends javax.swing.JFrame {
         jScrollPane2.setViewportView(textMsg);
 
         btEnviar.setText("Enviar");
+        btEnviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEnviarActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("IP:");
 
@@ -167,6 +183,10 @@ public class ClienteChat extends javax.swing.JFrame {
     private void cbBroadcastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbBroadcastActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbBroadcastActionPerformed
+
+    private void btEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEnviarActionPerformed
+        listClientes.updateUI();
+    }//GEN-LAST:event_btEnviarActionPerformed
 
     /**
      * @param args the command line arguments

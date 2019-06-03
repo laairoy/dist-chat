@@ -7,6 +7,8 @@ package sistemas.distribuidos.cliente;
 
 import java.io.InputStream;
 import java.util.Scanner;
+import org.json.JSONObject;
+import sistemas.distribuidos.distchat.JsonCorvert;
 
 
 /**
@@ -27,7 +29,20 @@ public class ClienteReceberMsg extends Thread {
         System.out.println("Thread msg recebida!");
         Scanner recebido = new Scanner(entradaDados);
         while (recebido.hasNextLine()) {
-            System.out.println("->" + recebido.nextLine());
+            
+            String msg = recebido.nextLine();
+            System.out.println("->" + msg);
+            verificarOperacao(msg);
+            
+        }
+    }
+    
+    private void verificarOperacao(String msg){
+        JsonCorvert json= new JsonCorvert(msg);
+        
+        if(json.getCod().equals("lista")){
+            System.out.println("lista: ");
+            json.getList();
         }
     }
 
