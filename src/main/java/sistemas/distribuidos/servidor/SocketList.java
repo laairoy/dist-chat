@@ -56,7 +56,7 @@ public class SocketList {
             int index = userList.indexOf(cli);
             userList.remove(index);
             userListNames.remove(index);
-            
+
             enviarLista();
 
             return true;
@@ -85,6 +85,6 @@ public class SocketList {
             System.out.print("  ");
             enviarMsg(cli, msg);
         }
-        
+
     }
 }

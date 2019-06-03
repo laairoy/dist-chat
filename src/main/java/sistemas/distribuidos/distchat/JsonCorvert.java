@@ -16,23 +16,23 @@ import static org.json.JSONObject.NULL;
  */
 public class JsonCorvert {
 
-    private JSONObject reader;
+    private JSONObject json;
     private ArrayList<JSONObject> list;
 
     public JsonCorvert() {
         list = new ArrayList<>();
-        reader = new JSONObject();
-        reader.put("COD", NULL);
-        reader.put("NOME", NULL);
-        reader.put("MSG", NULL);
-        reader.put("LISTACLIENTE", NULL);
-        reader.put("STATUS", NULL);
+        json = new JSONObject();
+        json.put("COD", NULL);
+        json.put("NOME", NULL);
+        json.put("MSG", NULL);
+        json.put("LISTACLIENTE", NULL);
+        json.put("STATUS", NULL);
     }
 
     public JsonCorvert(String data) {
         try {
             list = new ArrayList<>();
-            reader = new JSONObject(data);
+            json = new JSONObject(data);
             //System.out.println(reader.get("COD"));
             //System.out.println(reader.get("LISTACLIENTE"));
 
@@ -43,27 +43,27 @@ public class JsonCorvert {
     }
 
     public void put(String chave, String valor) {
-        reader.put(chave, valor);
+        json.put(chave, valor);
     }
 
     public String getCod() {
         //System.out.prinln();
-        return (String) reader.get("COD");
+        return (String) json.get("COD");
     }
 
     public void setCod(String codigo) {
-        reader.put("COD", codigo);
+        json.put("COD", codigo);
     }
 
     public String getNome() {
-        return (String) reader.get("NOME");
+        return (String) json.get("NOME");
     }
 
     public void setNome(String nome) {
-        reader.put("NOME", nome);
+        json.put("NOME", nome);
     }
     public void setStatus(String status){
-        reader.put("STATUS", status);
+        json.put("STATUS", status);
     }
     
     public void addToList(String nome, String ip, Integer porta) {
@@ -74,11 +74,11 @@ public class JsonCorvert {
 
         list.add(temp);
 
-        reader.put("LISTACLIENTE", list);
+        json.put("LISTACLIENTE", list);
     }
 
     @Override
     public String toString() {
-        return reader.toString();
+        return json.toString();
     }
 }
