@@ -36,10 +36,10 @@ public class ServidorCliente extends Thread {
             //DataInputStream in = new DataInputStream(cliente.getInputStream());
 
             while (in.hasNextLine()) {
-                String str = in.nextLine();
-                System.out.println("Server: " + str);
+                String msg = in.nextLine();
+                System.out.println("[RECEBENDO] -> " + "["+ cliente.getInetAddress() + ":" + cliente.getPort() + "] " + msg);
 
-                verificarOperacao(str);
+                verificarOperacao(msg);
             }
 
             //out.close();

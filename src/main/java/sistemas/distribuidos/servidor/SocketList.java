@@ -41,10 +41,11 @@ public class SocketList {
             JsonCorvert confirmar = new JsonCorvert();
             confirmar.setCod("rlogin");
             confirmar.setStatus("true");
+
             enviarMsg(cli, confirmar.toString());
-            System.out.println("-> " + confirmar.toString());
-            
+
             enviarLista();
+
             return true;
         }
         return false;
@@ -55,9 +56,9 @@ public class SocketList {
             int index = userList.indexOf(cli);
             userList.remove(cli);
             userListNames.remove(index);
-            
-            
+
             enviarLista();
+
             return true;
         }
         return false;
@@ -70,15 +71,17 @@ public class SocketList {
             json.addToList(userListNames.get(i), userList.get(i).getInetAddress().toString(), userList.get(i).getPort());
         }
 
-        for (Socket cli : userList) {
-            new PrintStream(cli.getOutputStream()).println(json.toString());
-            enviarMsg(cli, json.toString());
-        }
-
-        System.out.println("-> " + json.toString());
+        enviarBroadcast(json.toString());
     }
-    
-    private void enviarMsg(Socket cli, String msg) throws IOException{
+
+    private void enviarMsg(Socket cli, String msg) throws IOException {
         new PrintStream(cli.getOutputStream()).println(msg);
+        System.out.println("[ENVIANDO] -> " + "["+ cli.getInetAddress() + ":" + cli.getPort() + "] " + msg);
+    }
+
+    public void enviarBroadcast(String msg) throws IOException {
+        for (Socket cli : userList) {
+            enviarMsg(cli, msg);
+        }
     }
 }
