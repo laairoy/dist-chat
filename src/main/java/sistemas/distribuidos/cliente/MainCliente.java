@@ -18,7 +18,7 @@ public class MainCliente {
 
     public static void main(String[] args) {
         try {
-            Cliente cliente = new Cliente("127.0.0.1", 26000);
+            Cliente cliente = new Cliente("127.0.0.1", 22000);
             Scanner teclado = new Scanner(System.in);
             while(true){
                 String x = teclado.nextLine();

@@ -31,17 +31,20 @@ public class ServidorCliente extends Thread {
         System.out.println("New Communication Thread Started");
 
         try {
-            PrintStream out = new PrintStream(cliente.getOutputStream());
-            //Scanner in = new Scanner(cliente.getInputStream());
-            DataInputStream in = new DataInputStream(cliente.getInputStream());
+            //PrintStream out = new PrintStream(cliente.getOutputStream());
+            Scanner in = new Scanner(cliente.getInputStream());
+            //DataInputStream in = new DataInputStream(cliente.getInputStream());
 
-            String str = in.readUTF();
-            System.out.println("Server: " + str);
+            while (in.hasNextLine()) {
+                String str = in.nextLine();
+                System.out.println("Server: " + str);
 
-            verificarOperacao(str);
-            out.close();
+                verificarOperacao(str);
+            }
+
+            //out.close();
             in.close();
-            cliente.close();
+            //cliente.close();
 
         } catch (IOException e) {
             System.err.println("deu pau");
@@ -54,7 +57,7 @@ public class ServidorCliente extends Thread {
 
         if (json.getCod().equals("login")) {
             if (sList.add(cliente, json)) {
-                                
+
                 System.out.println("<- usuario " + json.getNome() + "conectou");
             }
 
