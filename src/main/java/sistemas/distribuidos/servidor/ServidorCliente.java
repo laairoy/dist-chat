@@ -68,6 +68,7 @@ public class ServidorCliente extends Thread {
         } else if (json.getCod().equals("logout")) {
             if (sList.remove(cliente)) {
                 System.out.println("[LOGOUT] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
+                
             }
         }
     }

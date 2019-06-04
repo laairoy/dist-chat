@@ -52,11 +52,18 @@ public class SocketList {
     }
 
     public boolean remove(Socket cli) throws IOException {
+        JsonCorvert logout = new JsonCorvert();
         if (userList.contains(cli)) {
             int index = userList.indexOf(cli);
+            
+            logout.setCod("rlogout");
+            logout.setStatus("true");
+            
             userList.remove(index);
             userListNames.remove(index);
-
+            
+            enviarMsg(cli, logout.toString());
+            
             enviarLista();
 
             return true;

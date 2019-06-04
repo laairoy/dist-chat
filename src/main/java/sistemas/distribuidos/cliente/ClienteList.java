@@ -30,13 +30,14 @@ public class ClienteList extends AbstractListModel {
     
     
     
-    public void addElement(String str) {
-        aList.add(str);
+    public void addElement(String nome, String ip, String porta) {
+        aList.add(nome);
         fireIntervalAdded(this, aList.size() - 1, aList.size() - 1);
     }
     
     public void removeAll(){
-        aList = new ArrayList<>();
+        aList.clear();
+        fireIntervalRemoved(this, 0, 0);
     }
 
     @Override

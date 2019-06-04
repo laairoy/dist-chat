@@ -8,8 +8,8 @@ package sistemas.distribuidos.cliente;
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.net.http.WebSocket;
-import java.util.ArrayList;
+//import java.net.http.WebSocket;
+//import java.util.ArrayList;
 import java.util.Scanner;
 
 /**

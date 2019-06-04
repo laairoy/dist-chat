@@ -97,9 +97,10 @@ public class ClienteConectar extends javax.swing.JFrame {
         try {
             Cliente.init(tfIP.getText(), Integer.parseInt(tfPorta.getText()));
             
+            this.dispose();
             new ClienteLogin().setVisible(true);
             
-            this.setVisible(false);
+            //this.setVisible(false);
             
         } catch (IOException ex) {
             Logger.getLogger(ClienteConectar.class.getName()).log(Level.SEVERE, null, ex);

@@ -68,6 +68,10 @@ public class JsonCorvert {
     public void setStatus(String status) {
         json.put("STATUS", status);
     }
+    
+    public String getStatus(){
+        return json.getString("STATUS");
+    }
 
     public void addToList(String nome, String ip, Integer porta) {
         JSONObject temp = new JSONObject();
@@ -80,12 +84,10 @@ public class JsonCorvert {
         json.put("LISTACLIENTE", list);
     }
 
-    public void getList() {
-        //ArrayList<JSONObject> list;
-        //list = new ArrayList<>();
+    public JSONArray getList() {
         JSONArray temp = new JSONArray(json.get("LISTACLIENTE").toString());
-
-        for (Object msg : temp) {
+      
+       /* for (Object msg : temp) {
             list.add(new JSONObject(msg.toString()));
         }
         
@@ -93,11 +95,11 @@ public class JsonCorvert {
         cliList.removeAll();
         for (JSONObject json : list) {
             cliList.addElement(json.getString("NOME"));
-        }
+        }*/
 
-        System.out.println("testes " + cliList.getElementAt(0));
+        //System.out.println("testes " + cliList.getElementAt(0));
         //.addAll(temp.to);
-
+        return temp;
     }
 
     @Override
