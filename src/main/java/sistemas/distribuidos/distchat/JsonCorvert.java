@@ -10,7 +10,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import static org.json.JSONObject.NULL;
-import sistemas.distribuidos.cliente.ClienteList;
 
 /**
  *

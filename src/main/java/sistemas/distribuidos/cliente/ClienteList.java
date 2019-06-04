@@ -28,8 +28,6 @@ public class ClienteList extends AbstractListModel {
         return list;
     }
     
-    
-    
     public void addElement(String nome, String ip, String porta) {
         aList.add(nome);
         fireIntervalAdded(this, aList.size() - 1, aList.size() - 1);

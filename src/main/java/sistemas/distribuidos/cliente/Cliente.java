@@ -44,38 +44,36 @@ public class Cliente {
 
         aguardarResposta();
 
-        //PrintStream out = new PrintStream(conexao.getOutputStream());
-        //Scanner teclado = new Scanner(System.in);
-        PrintStream saida = new PrintStream(conexao.getOutputStream());
-
-        /*while (teclado.hasNextLine()) {
-            saida.println(teclado.nextLine());
-        }*/
-        //conexao.close();
         JsonCorvert json = new JsonCorvert();
         json.setNome(nome);
         json.setCod("login");
 
-        saida.println(json.toString());
-        System.out.println("-> " + json.toString());
+        enviarMSG(json.toString());
 
     }
 
     public void logout(String nome) throws IOException {
 
-        PrintStream saida = new PrintStream(conexao.getOutputStream());
-
         JsonCorvert json = new JsonCorvert();
         json.setNome(nome);
         json.setCod("logout");
 
-        saida.println(json.toString());
+        enviarMSG(json.toString());
 
-        System.out.println("-> " + json.toString());
+        //System.out.println("-> " + json.toString());
     }
 
     private void aguardarResposta() throws IOException {
         ClienteReceberMsg receber = new ClienteReceberMsg(conexao.getInputStream());
+        receber.start();
     }
-
+    
+    private void enviarMSG(String msg) throws IOException{
+        PrintStream saida = new PrintStream(conexao.getOutputStream());
+         saida.println(msg);
+         //saida.close();
+         
+         System.out.println("[ENVIANDO] -> " + msg);
+        
+    }
 }

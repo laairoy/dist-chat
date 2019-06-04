@@ -21,17 +21,16 @@ public class ClienteReceberMsg extends Thread {
     
     public ClienteReceberMsg(InputStream entradaDados) {
         this.entradaDados = entradaDados;
-        start();
     }
     
     @Override
     public void run() {
-        System.out.println("Thread msg recebida!");
+        //System.out.println("Thread msg recebida!");
         Scanner recebido = new Scanner(entradaDados);
         while (recebido.hasNextLine()) {
             
             String msg = recebido.nextLine();
-            System.out.println("->" + msg);
+            System.out.println("[RECEBIDO] <- " + msg);
             verificarOperacao(msg);
             
         }
@@ -41,7 +40,7 @@ public class ClienteReceberMsg extends Thread {
         JsonCorvert json = new JsonCorvert(msg);
         
         if (json.getCod().equals("lista")) {
-            System.out.println("lista: ");
+            //System.out.println("lista: ");
             getList(json.getList());
         }
         if (json.getCod().equals("rlogout")) {
