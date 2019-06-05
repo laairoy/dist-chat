@@ -45,9 +45,9 @@ public class ClienteReceberMsg extends Thread {
         }
         if (json.getCod().equals("rlogout")) {
             //System.out.println("lista: ");
-           if(json.getStatus().equals("true")){
-               System.exit(0);
-           }
+            if (json.getStatus().equals("true") || json.getStatus().equals("sucesso")) {
+                System.exit(0);
+            }
         }
     }
     

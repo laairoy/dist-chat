@@ -21,7 +21,7 @@ public class ClienteLogin extends javax.swing.JFrame {
      */
     public ClienteLogin() {
         initComponents();
-        
+
     }
 
     /**
@@ -87,17 +87,22 @@ public class ClienteLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLoginActionPerformed
-        try {
-            Cliente cliente = Cliente.init();
-            cliente.login(tfLogin.getText());
-            this.dispose();
-            new ClienteChat(tfLogin.getText()).setVisible(true);
-            //this.setVisible(false);
-            
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-            
-            Logger.getLogger(ClienteLogin.class.getName()).log(Level.SEVERE, null, ex);
+
+        if (tfLogin.getText().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite o nome para login", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            try {
+                Cliente cliente = Cliente.init();
+                cliente.login(tfLogin.getText());
+                this.dispose();
+                new ClienteChat(tfLogin.getText()).setVisible(true);
+                //this.setVisible(false);
+
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+
+                Logger.getLogger(ClienteLogin.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btLoginActionPerformed
 

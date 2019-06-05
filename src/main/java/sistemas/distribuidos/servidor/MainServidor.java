@@ -7,6 +7,8 @@ package sistemas.distribuidos.servidor;
 
 import java.io.IOException;
 import java.net.SocketException;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 /**
  *
@@ -15,11 +17,20 @@ import java.net.SocketException;
 public class MainServidor {
     public static void main(String[] args){
         try{
-        Servidor servidor = new Servidor(22000);
+            int porta;
+            Scanner entrada = new Scanner(System.in);
+            
+            System.out.print("Digita a porta: ");
+            
+            porta = entrada.nextInt();
+            
+        Servidor servidor = new Servidor(porta);
         servidor.start();
         } catch(SocketException e){
             System.out.println("problemas com a porta");
         } catch (IOException e){
+        } catch (InputMismatchException e){
+            System.out.println("Você não digitou um número válido para porta!");
         }
     }
 }
