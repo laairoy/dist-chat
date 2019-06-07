@@ -14,12 +14,12 @@ import javax.swing.JOptionPane;
  *
  * @author laairoy
  */
-public class ClienteLogin extends javax.swing.JFrame {
+public class UIClienteLogin extends javax.swing.JFrame {
 
     /**
      * Creates new form ClienteLogin
      */
-    public ClienteLogin() {
+    public UIClienteLogin() {
         initComponents();
 
     }
@@ -95,13 +95,13 @@ public class ClienteLogin extends javax.swing.JFrame {
                 Cliente cliente = Cliente.init();
                 cliente.login(tfLogin.getText());
                 this.dispose();
-                new ClienteChat(tfLogin.getText()).setVisible(true);
+                new UIClienteChat(tfLogin.getText()).setVisible(true);
                 //this.setVisible(false);
 
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 
-                Logger.getLogger(ClienteLogin.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(UIClienteLogin.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btLoginActionPerformed

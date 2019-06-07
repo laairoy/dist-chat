@@ -9,17 +9,17 @@ import java.io.InputStream;
 import java.util.Scanner;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import sistemas.distribuidos.distchat.JsonCorvert;
+import sistemas.distribuidos.distchat.JsonConvert;
 
 /**
  *
  * @author laairoy
  */
-public class ClienteReceberMsg extends Thread {
+public class ClienteThread extends Thread {
     
     private final InputStream entradaDados;
     
-    public ClienteReceberMsg(InputStream entradaDados) {
+    public ClienteThread(InputStream entradaDados) {
         this.entradaDados = entradaDados;
     }
     
@@ -37,7 +37,7 @@ public class ClienteReceberMsg extends Thread {
     }
     
     private void verificarOperacao(String msg) {
-        JsonCorvert json = new JsonCorvert(msg);
+        JsonConvert json = new JsonConvert(msg);
         
         if (json.getCod().equals("lista")) {
             //System.out.println("lista: ");
@@ -52,7 +52,7 @@ public class ClienteReceberMsg extends Thread {
     }
     
     private void getList(JSONArray lista) {
-        ClienteList cliList = ClienteList.init();        
+        ClienteListModel cliList = ClienteListModel.init();        
         cliList.removeAll();
         
         for (Object json : lista) {

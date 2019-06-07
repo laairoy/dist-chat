@@ -12,18 +12,18 @@ import javax.swing.AbstractListModel;
  *
  * @author laairoy
  */
-public class ClienteList extends AbstractListModel {
+public class ClienteListModel extends AbstractListModel {
 
-    private static ClienteList list;
+    private static ClienteListModel list;
     private ArrayList<String> aList;
 
-    private ClienteList(){
+    private ClienteListModel(){
         aList = new ArrayList<>();
     }
     
-    public static ClienteList init() {
+    public static ClienteListModel init() {
         if (list == null) {
-            list = new ClienteList();
+            list = new ClienteListModel();
         }
         return list;
     }

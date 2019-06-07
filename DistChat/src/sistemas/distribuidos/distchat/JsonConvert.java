@@ -15,12 +15,12 @@ import static org.json.JSONObject.NULL;
  *
  * @author laairoy
  */
-public class JsonCorvert {
+public class JsonConvert {
 
     private JSONObject json;
     private ArrayList<JSONObject> list;
 
-    public JsonCorvert() {
+    public JsonConvert() {
         list = new ArrayList<>();
         json = new JSONObject();
         json.put("COD", NULL);
@@ -30,7 +30,7 @@ public class JsonCorvert {
         json.put("STATUS", NULL);
     }
 
-    public JsonCorvert(String data) {
+    public JsonConvert(String data) {
         try {
             list = new ArrayList<>();
             json = new JSONObject(data);

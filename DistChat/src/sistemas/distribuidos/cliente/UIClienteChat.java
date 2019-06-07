@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  *
  * @author laairoy
  */
-public class ClienteChat extends javax.swing.JFrame {
+public class UIClienteChat extends javax.swing.JFrame {
 
     private final String nome;
 
@@ -22,8 +22,8 @@ public class ClienteChat extends javax.swing.JFrame {
      *
      * @param nome
      */
-    public ClienteChat(String nome) {
-        ClienteList list = ClienteList.init();
+    public UIClienteChat(String nome) {
+        ClienteListModel list = ClienteListModel.init();
         // listClientes = new JList(list);
         initComponents();
 
@@ -215,7 +215,7 @@ public class ClienteChat extends javax.swing.JFrame {
             
             //this.dispose();
         } catch (IOException ex) {
-            Logger.getLogger(ClienteChat.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed

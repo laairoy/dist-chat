@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import sistemas.distribuidos.distchat.JsonCorvert;
+import sistemas.distribuidos.distchat.JsonConvert;
 
 /**
  *
@@ -33,14 +33,14 @@ public class SocketList {
         return socketList;
     }
 
-    public boolean add(Socket cli, JsonCorvert json) throws IOException {
+    public boolean add(Socket cli, JsonConvert json) throws IOException {
         if (!userList.contains(cli)) {
             userList.add(cli);
             userListNames.add(json.getNome());
 
-            JsonCorvert confirmar = new JsonCorvert();
+            JsonConvert confirmar = new JsonConvert();
             confirmar.setCod("rlogin");
-            confirmar.setStatus("true");
+            confirmar.setStatus("sucesso");
        
             enviarMsg(cli, confirmar.toString());
 
@@ -52,12 +52,12 @@ public class SocketList {
     }
 
     public boolean remove(Socket cli) throws IOException {
-        JsonCorvert logout = new JsonCorvert();
+        JsonConvert logout = new JsonConvert();
         if (userList.contains(cli)) {
             int index = userList.indexOf(cli);
             
             logout.setCod("rlogout");
-            logout.setStatus("true");
+            logout.setStatus("sucesso");
             
             userList.remove(index);
             userListNames.remove(index);
@@ -72,7 +72,7 @@ public class SocketList {
     }
 
     private void enviarLista() throws IOException {
-        JsonCorvert json = new JsonCorvert();
+        JsonConvert json = new JsonConvert();
         json.setCod("lista");
         for (int i = 0; i < userList.size(); i++) {
             json.addToList(userListNames.get(i), userList.get(i).getInetAddress().toString(), userList.get(i).getPort());

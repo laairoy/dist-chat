@@ -17,7 +17,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             
-            JsonCorvert job = new JsonCorvert();
+            JsonConvert job = new JsonConvert();
             job.put("COD", "login");
             job.put("NOME", "marden");
             

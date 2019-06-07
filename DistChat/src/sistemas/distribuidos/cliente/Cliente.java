@@ -8,7 +8,7 @@ package sistemas.distribuidos.cliente;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
-import sistemas.distribuidos.distchat.JsonCorvert;
+import sistemas.distribuidos.distchat.JsonConvert;
 
 /**
  *
@@ -44,7 +44,7 @@ public class Cliente {
 
         aguardarResposta();
 
-        JsonCorvert json = new JsonCorvert();
+        JsonConvert json = new JsonConvert();
         json.setNome(nome);
         json.setCod("login");
 
@@ -54,7 +54,7 @@ public class Cliente {
 
     public void logout(String nome) throws IOException {
 
-        JsonCorvert json = new JsonCorvert();
+        JsonConvert json = new JsonConvert();
         json.setNome(nome);
         json.setCod("logout");
 
@@ -64,7 +64,7 @@ public class Cliente {
     }
 
     private void aguardarResposta() throws IOException {
-        ClienteReceberMsg receber = new ClienteReceberMsg(conexao.getInputStream());
+        ClienteThread receber = new ClienteThread(conexao.getInputStream());
         receber.start();
     }
     

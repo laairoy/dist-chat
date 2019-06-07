@@ -9,17 +9,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import sistemas.distribuidos.distchat.JsonCorvert;
+import sistemas.distribuidos.distchat.JsonConvert;
 
 /**
  *
  * @author laairoy
  */
-public class ServidorCliente extends Thread {
+public class ServidorThread extends Thread {
 
     private final Socket cliente;
 
-    public ServidorCliente(Socket cliente) {
+    public ServidorThread(Socket cliente) {
         this.cliente = cliente;
     }
 
@@ -51,13 +51,13 @@ public class ServidorCliente extends Thread {
             //cliente.close();
 
         } catch (IOException e) {
-            System.err.println("deu pau");
+            System.err.println("[ERRO] <-> " + e);
         }
     }
 
     private void verificarOperacao(String msg) throws IOException {
         SocketList sList = SocketList.init();
-        JsonCorvert json = new JsonCorvert(msg);
+        JsonConvert json = new JsonConvert(msg);
 
         if (json.getCod().equals("login")) {
             if (sList.add(cliente, json)) {
@@ -68,7 +68,7 @@ public class ServidorCliente extends Thread {
         } else if (json.getCod().equals("logout")) {
             if (sList.remove(cliente)) {
                 System.out.println("[LOGOUT] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
-                
+
             }
         }
     }

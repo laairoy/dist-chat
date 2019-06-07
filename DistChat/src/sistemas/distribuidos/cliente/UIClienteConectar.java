@@ -14,12 +14,12 @@ import javax.swing.JOptionPane;
  *
  * @author laairoy
  */
-public class ClienteConectar extends javax.swing.JFrame {
+public class UIClienteConectar extends javax.swing.JFrame {
 
     /**
      * Creates new form ClienteConectar
      */
-    public ClienteConectar() {
+    public UIClienteConectar() {
         initComponents();
     }
 
@@ -98,12 +98,12 @@ public class ClienteConectar extends javax.swing.JFrame {
             Cliente.init(tfIP.getText(), Integer.parseInt(tfPorta.getText()));
             
             this.dispose();
-            new ClienteLogin().setVisible(true);
+            new UIClienteLogin().setVisible(true);
             
             //this.setVisible(false);
             
         } catch (IOException ex) {
-            Logger.getLogger(ClienteConectar.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UIClienteConectar.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             
         }
@@ -127,20 +127,23 @@ public class ClienteConectar extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ClienteConectar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UIClienteConectar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ClienteConectar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UIClienteConectar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ClienteConectar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UIClienteConectar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ClienteConectar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UIClienteConectar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ClienteConectar().setVisible(true);
+                new UIClienteConectar().setVisible(true);
             }
         });
     }

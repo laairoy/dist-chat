@@ -28,7 +28,7 @@ public class Servidor {
         while (true) {
             Socket cliente = servidor.accept();
 
-            ServidorCliente novaConexao = new ServidorCliente(cliente);
+            ServidorThread novaConexao = new ServidorThread(cliente);
 
             novaConexao.start();
 
