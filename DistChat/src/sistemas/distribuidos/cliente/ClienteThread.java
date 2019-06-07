@@ -25,7 +25,6 @@ public class ClienteThread extends Thread {
     
     @Override
     public void run() {
-        //System.out.println("Thread msg recebida!");
         Scanner recebido = new Scanner(entradaDados);
         while (recebido.hasNextLine()) {
             
@@ -40,11 +39,9 @@ public class ClienteThread extends Thread {
         JsonConvert json = new JsonConvert(msg);
         
         if (json.getCod().equals("lista")) {
-            //System.out.println("lista: ");
             getList(json.getList());
         }
         if (json.getCod().equals("rlogout")) {
-            //System.out.println("lista: ");
             if (json.getStatus().equals("true") || json.getStatus().equals("sucesso")) {
                 System.exit(0);
             }

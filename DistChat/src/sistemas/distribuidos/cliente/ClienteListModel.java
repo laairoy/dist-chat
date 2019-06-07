@@ -15,7 +15,7 @@ import javax.swing.AbstractListModel;
 public class ClienteListModel extends AbstractListModel {
 
     private static ClienteListModel list;
-    private ArrayList<String> aList;
+    private final ArrayList<String> aList;
 
     private ClienteListModel(){
         aList = new ArrayList<>();

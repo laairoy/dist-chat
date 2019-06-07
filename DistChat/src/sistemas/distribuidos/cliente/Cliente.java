@@ -59,8 +59,6 @@ public class Cliente {
         json.setCod("logout");
 
         enviarMSG(json.toString());
-
-        //System.out.println("-> " + json.toString());
     }
 
     private void aguardarResposta() throws IOException {
@@ -71,9 +69,7 @@ public class Cliente {
     private void enviarMSG(String msg) throws IOException{
         PrintStream saida = new PrintStream(conexao.getOutputStream());
          saida.println(msg);
-         //saida.close();
          
-         System.out.println("[ENVIANDO] -> " + msg);
-        
+         System.out.println("[ENVIANDO] -> " + msg);  
     }
 }

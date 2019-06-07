@@ -21,18 +21,19 @@ public class UIClienteChat extends javax.swing.JFrame {
      * Creates new form ClienteChat
      *
      * @param nome
+     * 
      */
+    @SuppressWarnings("unchecked")
     public UIClienteChat(String nome) {
+        
         ClienteListModel list = ClienteListModel.init();
-        // listClientes = new JList(list);
+
         initComponents();
 
         this.nome = nome;
 
         listClientes.setModel(list);
         listClientes.setVisibleRowCount(10);
-
-        //model.addElement("ola mundo");
     }
 
     /**

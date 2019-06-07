@@ -46,12 +46,10 @@ public class ServidorThread extends Thread {
                 list.remove(cliente);
             }
 
-            //out.close();
             in.close();
-            //cliente.close();
 
         } catch (IOException e) {
-            System.err.println("[ERRO] <-> " + e);
+            System.out.println("[ERRO_THREAD] <-> " + e);
         }
     }
 
@@ -62,7 +60,7 @@ public class ServidorThread extends Thread {
         if (json.getCod().equals("login")) {
             if (sList.add(cliente, json)) {
 
-                System.out.println("[LOGIN] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]" + " " + json.getNome());
+                System.out.println("[LOGIN] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]" + " Usuario: " + json.getNome());
             }
 
         } else if (json.getCod().equals("logout")) {

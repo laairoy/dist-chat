@@ -35,8 +35,6 @@ public class MainCliente {
                 }
 
             }
-
-            //cliente.logout("marden");
         } catch (UnknownHostException | SocketException ex) {
             System.out.println("Erro Socket");
         } catch (IOException ex) {
@@ -47,5 +45,5 @@ public class MainCliente {
     public void login(String nome) throws IOException {
         this.cliente.login(nome);
     }
-    
+
 }

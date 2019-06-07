@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import static org.json.JSONObject.NULL;
 
 /**
  *
@@ -23,22 +22,15 @@ public class JsonConvert {
     public JsonConvert() {
         list = new ArrayList<>();
         json = new JSONObject();
-        json.put("COD", NULL);
-        json.put("NOME", NULL);
-        json.put("MSG", NULL);
-        json.put("LISTACLIENTE", NULL);
-        json.put("STATUS", NULL);
     }
 
     public JsonConvert(String data) {
         try {
             list = new ArrayList<>();
             json = new JSONObject(data);
-            //System.out.println(reader.get("COD"));
-            //System.out.println(reader.get("LISTACLIENTE"));
 
         } catch (JSONException e) {
-
+            System.out.println("[ERRO_JSON] <-> " + e);
         }
 
     }
@@ -48,7 +40,6 @@ public class JsonConvert {
     }
 
     public String getCod() {
-        //System.out.prinln();
         return (String) json.get("COD");
     }
 
@@ -85,19 +76,7 @@ public class JsonConvert {
 
     public JSONArray getList() {
         JSONArray temp = new JSONArray(json.get("LISTACLIENTE").toString());
-      
-       /* for (Object msg : temp) {
-            list.add(new JSONObject(msg.toString()));
-        }
-        
-        ClienteList cliList = ClienteList.init();
-        cliList.removeAll();
-        for (JSONObject json : list) {
-            cliList.addElement(json.getString("NOME"));
-        }*/
 
-        //System.out.println("testes " + cliList.getElementAt(0));
-        //.addAll(temp.to);
         return temp;
     }
 
