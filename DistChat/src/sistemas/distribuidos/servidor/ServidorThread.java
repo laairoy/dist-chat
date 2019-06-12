@@ -56,18 +56,28 @@ public class ServidorThread extends Thread {
     private void verificarOperacao(String msg) throws IOException {
         SocketList sList = SocketList.init();
         JsonConvert json = new JsonConvert(msg);
+        switch (json.getCod()) {
+            case "login":
+                if (sList.add(cliente, json)) {
+                    System.out.println("[LOGIN] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]" + " Usuario: " + json.getNome());
+                }
+                break;
 
-        if (json.getCod().equals("login")) {
-            if (sList.add(cliente, json)) {
+            case "logout":
+                if (sList.remove(cliente)) {
+                    System.out.println("[LOGOUT] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
 
-                System.out.println("[LOGIN] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]" + " Usuario: " + json.getNome());
-            }
+                }
+                break;
+            case "chat":
+                if (json.getStatus().equals("uni")) {
+                    sList.msgUnicast(cliente, json);
+                } else {
+                    sList.msgBroadCast(cliente, json);
+                }
 
-        } else if (json.getCod().equals("logout")) {
-            if (sList.remove(cliente)) {
-                System.out.println("[LOGOUT] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
+                break;
 
-            }
         }
     }
 

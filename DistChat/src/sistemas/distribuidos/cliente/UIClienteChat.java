@@ -5,9 +5,11 @@
  */
 package sistemas.distribuidos.cliente;
 
+import sistemas.distribuidos.distchat.ClienteListModel;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import sistemas.distribuidos.distchat.DadosCliente;
 
 /**
  *
@@ -16,16 +18,17 @@ import java.util.logging.Logger;
 public class UIClienteChat extends javax.swing.JFrame {
 
     private final String nome;
+    private Cliente cliente;
 
     /**
      * Creates new form ClienteChat
      *
      * @param nome
-     * 
+     *
      */
     @SuppressWarnings("unchecked")
     public UIClienteChat(String nome) {
-        
+
         ClienteListModel list = ClienteListModel.init();
 
         initComponents();
@@ -34,6 +37,12 @@ public class UIClienteChat extends javax.swing.JFrame {
 
         listClientes.setModel(list);
         listClientes.setVisibleRowCount(10);
+
+        try {
+            this.cliente = Cliente.init();
+        } catch (IOException ex) {
+            Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -64,9 +73,19 @@ public class UIClienteChat extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         listClientes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listClientes.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listClientesValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(listClientes);
 
         cbBroadcast.setText("Broadcast");
+        cbBroadcast.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                cbBroadcastStateChanged(evt);
+            }
+        });
         cbBroadcast.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbBroadcastActionPerformed(evt);
@@ -100,10 +119,7 @@ public class UIClienteChat extends javax.swing.JFrame {
         textMsg.setEnabled(false);
         jScrollPane2.setViewportView(textMsg);
 
-        tfEnviar.setEnabled(false);
-
         btEnviar.setText("Enviar");
-        btEnviar.setEnabled(false);
         btEnviar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btEnviarActionPerformed(evt);
@@ -159,9 +175,9 @@ public class UIClienteChat extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane2)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(tfEnviar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(tfEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
@@ -202,24 +218,45 @@ public class UIClienteChat extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cbBroadcastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbBroadcastActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_cbBroadcastActionPerformed
 
     private void btEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEnviarActionPerformed
 
+        if (tfEnviar.getText().isEmpty() == false) {
+            try {
+                if (cbBroadcast.isSelected()) {
+                    cliente.sendMsg(this.nome, tfEnviar.getText());
+                } else if (listClientes.getSelectedIndex() >= 0) {
+                    DadosCliente dados = ClienteListModel.init().getDadosCliente(listClientes.getSelectedIndex());
+                    cliente.sendMsg(this.nome, tfEnviar.getText(), dados);
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_btEnviarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
         try {
-            Cliente cli = Cliente.init();
-            cli.logout(this.nome);
-            
+            cliente.logout(this.nome);
+
             //this.dispose();
         } catch (IOException ex) {
             Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void listClientesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listClientesValueChanged
+        cbBroadcast.setSelected(false);
+    }//GEN-LAST:event_listClientesValueChanged
+
+    private void cbBroadcastStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbBroadcastStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbBroadcastStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

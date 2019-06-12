@@ -5,6 +5,7 @@
  */
 package sistemas.distribuidos.cliente;
 
+import sistemas.distribuidos.distchat.ClienteListModel;
 import java.io.InputStream;
 import java.util.Scanner;
 import org.json.JSONArray;
@@ -54,7 +55,7 @@ public class ClienteThread extends Thread {
         
         for (Object json : lista) {
             JSONObject temp = new JSONObject(json.toString());
-            cliList.addElement(temp.getString("NOME"), temp.getString("IP"), temp.getString("PORTA"));
+            cliList.addElement(temp.getString("NOME"), temp.getString("IP"), Integer.parseInt(temp.getString("PORTA")));
         }
         
     }

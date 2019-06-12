@@ -8,6 +8,7 @@ package sistemas.distribuidos.cliente;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+import sistemas.distribuidos.distchat.DadosCliente;
 import sistemas.distribuidos.distchat.JsonConvert;
 
 /**
@@ -61,15 +62,36 @@ public class Cliente {
         enviarMSG(json.toString());
     }
 
+    public void sendMsg(String clienteNome, String msg,DadosCliente dadosCliente) throws IOException {
+        JsonConvert json = new JsonConvert();
+        json.setCod("chat");
+        json.setStatus("uni");
+        json.setNome(clienteNome);
+        json.setMsg(msg);
+        json.addToList(dadosCliente.getNome(), dadosCliente.getIp(), dadosCliente.getPorta());
+
+        enviarMSG(json.toString());
+    }
+
+    public void sendMsg(String clienteNome, String msg) throws IOException {
+        JsonConvert json = new JsonConvert();
+        json.setCod("chat");
+        json.setStatus("broad");
+        json.setNome(clienteNome);
+        json.setMsg(msg);
+
+        enviarMSG(json.toString());
+    }
+
     private void aguardarResposta() throws IOException {
         ClienteThread receber = new ClienteThread(conexao.getInputStream());
         receber.start();
     }
-    
-    private void enviarMSG(String msg) throws IOException{
+
+    private void enviarMSG(String msg) throws IOException {
         PrintStream saida = new PrintStream(conexao.getOutputStream());
-         saida.println(msg);
-         
-         System.out.println("[ENVIANDO] -> " + msg);  
+        saida.println(msg);
+
+        System.out.println("[ENVIANDO] -> " + msg);
     }
 }

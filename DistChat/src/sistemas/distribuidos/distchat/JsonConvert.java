@@ -58,9 +58,17 @@ public class JsonConvert {
     public void setStatus(String status) {
         json.put("STATUS", status);
     }
-    
-    public String getStatus(){
+
+    public String getStatus() {
         return json.getString("STATUS");
+    }
+
+    public void setMsg(String msg) {
+        json.put("MSG", msg);
+    }
+
+    public String getMsg() {
+        return json.getString("MSG");
     }
 
     public void addToList(String nome, String ip, Integer porta) {

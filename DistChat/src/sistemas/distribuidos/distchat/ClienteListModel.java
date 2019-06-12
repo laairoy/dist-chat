@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sistemas.distribuidos.cliente;
+package sistemas.distribuidos.distchat;
 
 import java.util.ArrayList;
 import javax.swing.AbstractListModel;
+import sistemas.distribuidos.distchat.DadosCliente;
 
 /**
  *
@@ -15,25 +16,25 @@ import javax.swing.AbstractListModel;
 public class ClienteListModel extends AbstractListModel {
 
     private static ClienteListModel list;
-    private final ArrayList<String> aList;
+    private final ArrayList<DadosCliente> aList;
 
-    private ClienteListModel(){
+    private ClienteListModel() {
         aList = new ArrayList<>();
     }
-    
+
     public static ClienteListModel init() {
         if (list == null) {
             list = new ClienteListModel();
         }
         return list;
     }
-    
-    public void addElement(String nome, String ip, String porta) {
-        aList.add(nome);
+
+    public void addElement(String nome, String ip, int porta) {
+        aList.add(new DadosCliente(nome, ip, porta));
         fireIntervalAdded(this, aList.size() - 1, aList.size() - 1);
     }
-    
-    public void removeAll(){
+
+    public void removeAll() {
         aList.clear();
         fireIntervalRemoved(this, 0, 0);
     }
@@ -45,7 +46,11 @@ public class ClienteListModel extends AbstractListModel {
 
     @Override
     public Object getElementAt(int arg0) {
-        return aList.get(arg0);
+        return aList.get(arg0).getNome();
+    }
+    
+    public DadosCliente getDadosCliente(int index){
+        return aList.get(index);
     }
 
 }
