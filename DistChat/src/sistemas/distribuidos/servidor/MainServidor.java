@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,19 +19,19 @@ public class MainServidor {
     public static void main(String[] args){
         try{
             int porta;
-            Scanner entrada = new Scanner(System.in);
+            porta = Integer.parseInt(JOptionPane.showInputDialog("Digite a porta:"));
             
-            System.out.print("Digita a porta: ");
-            
-            porta = entrada.nextInt();
-            
-        Servidor servidor = new Servidor(porta);
-        servidor.start();
+            UIServidor tela = new UIServidor();
+            Servidor servidor = new Servidor(porta, tela);
+            tela.setVisible(true);
+            servidor.start();
         } catch(SocketException e){
             System.out.println("problemas com a porta");
         } catch (IOException e){
         } catch (InputMismatchException e){
             System.out.println("Você não digitou um número válido para porta!");
+        } catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "Valor inválido!");
         }
     }
 }

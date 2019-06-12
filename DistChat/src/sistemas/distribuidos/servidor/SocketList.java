@@ -22,14 +22,16 @@ public class SocketList {
 
     private static Map<Socket, String> list;
     private static SocketList socketList;
+    UIServidor tela;
 
-    private SocketList() {
+    private SocketList(UIServidor tela) {
         this.list = new HashMap<>();
+        this.tela = tela;
     }
 
-    public static SocketList init() {
+    public static SocketList init(UIServidor tela) {
         if (socketList == null) {
-            socketList = new SocketList();
+            socketList = new SocketList(tela);
         }
         return socketList;
     }
@@ -82,10 +84,12 @@ public class SocketList {
 
     private void enviarMsg(Socket cli, String msg) throws IOException {
         new PrintStream(cli.getOutputStream()).println(msg);
+        tela.atualizaLog("[ENVIANDO] -> " + "[" + cli.getInetAddress() + ":" + cli.getPort() + "] " + msg);
         System.out.println("[ENVIANDO] -> " + "[" + cli.getInetAddress() + ":" + cli.getPort() + "] " + msg);
     }
 
     public void enviarBroadcast(String msg) throws IOException {
+        tela.atualizaLog("[BROADCAST]");
         System.out.println("[BROADCAST]");
         for (Socket cli : list.keySet()) {
             System.out.print("  ");

@@ -18,13 +18,16 @@ import sistemas.distribuidos.distchat.JsonConvert;
 public class ServidorThread extends Thread {
 
     private final Socket cliente;
+    UIServidor tela;
 
-    public ServidorThread(Socket cliente) {
+    public ServidorThread(Socket cliente, UIServidor tela) {
         this.cliente = cliente;
+        this.tela = tela;
     }
 
     @Override
     public void run() {
+        tela.atualizaLog("[CONEXAO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
         System.out.println("[CONEXAO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
 
         try {
@@ -34,37 +37,42 @@ public class ServidorThread extends Thread {
             String msg;
 
             while ((msg = in.readLine()) != null) {
-
+                
+                tela.atualizaLog("[RECEBENDO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "] " + msg);
                 System.out.println("[RECEBENDO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "] " + msg);
 
                 verificarOperacao(msg);
             }
 
             if (msg == null) {
+                tela.atualizaLog("[DESCONECTOU] -> " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "] ");
                 System.out.println("[DESCONECTOU] -> " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "] ");
-                SocketList list = SocketList.init();
+                SocketList list = SocketList.init(tela);
                 list.remove(cliente);
             }
 
             in.close();
 
         } catch (IOException e) {
+            tela.atualizaLog("[ERRO_THREAD] <-> " + e);
             System.out.println("[ERRO_THREAD] <-> " + e);
         }
     }
 
     private void verificarOperacao(String msg) throws IOException {
-        SocketList sList = SocketList.init();
+        SocketList sList = SocketList.init(tela);
         JsonConvert json = new JsonConvert(msg);
         switch (json.getCod()) {
             case "login":
                 if (sList.add(cliente, json)) {
+                    tela.atualizaLog("[LOGIN] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]" + " Usuario: " + json.getNome());
                     System.out.println("[LOGIN] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]" + " Usuario: " + json.getNome());
                 }
                 break;
 
             case "logout":
                 if (sList.remove(cliente)) {
+                    tela.atualizaLog("[LOGOUT] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
                     System.out.println("[LOGOUT] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
 
                 }

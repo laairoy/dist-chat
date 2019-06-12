@@ -17,18 +17,21 @@ public class Servidor {
 
     private final int porta;
     private final ServerSocket servidor;
+    UIServidor tela;
 
-    public Servidor(int porta) throws IOException {
+    public Servidor(int porta, UIServidor tela) throws IOException {
         this.porta = porta;
         this.servidor = new ServerSocket(porta);
+        this.tela = tela;
     }
 
     public void start() throws IOException {
-        System.out.println("[SERVIDOR INICIADO] " + "[PONTA: " + this.porta + "]");
+        tela.atualizaLog("[SERVIDOR INICIADO] " + "[PORTA: " + this.porta + "]");
+        System.out.println("[SERVIDOR INICIADO] " + "[PORTA: " + this.porta + "]");
         while (true) {
             Socket cliente = servidor.accept();
 
-            ServidorThread novaConexao = new ServidorThread(cliente);
+            ServidorThread novaConexao = new ServidorThread(cliente, tela);
 
             novaConexao.start();
 
