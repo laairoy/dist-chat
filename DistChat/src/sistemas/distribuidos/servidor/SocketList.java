@@ -65,7 +65,7 @@ public class SocketList {
             enviarMsg(cli, logout.toString());
 
             enviarLista();
-
+            
             return true;
         }
         return false;

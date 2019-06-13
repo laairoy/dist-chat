@@ -9,6 +9,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import sistemas.distribuidos.distchat.JsonConvert;
 
 /**
@@ -54,8 +56,20 @@ public class ServidorThread extends Thread {
             in.close();
 
         } catch (IOException e) {
-            tela.atualizaLog("[ERRO_THREAD] <-> " + e);
-            System.out.println("[ERRO_THREAD] <-> " + e);
+            SocketList sList = SocketList.init(tela);
+            
+            try {
+                if (sList.remove(cliente)) {
+                    tela.atualizaLog("[ERRO_THREAD] <-> Problema de comunicação");
+                    System.out.println("[ERRO_THREAD] <-> Problema de comunicação");
+                    tela.atualizaLog("[LOGOUT] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
+                    System.out.println("[LOGOUT] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
+                }
+            } catch (IOException ex) {
+                tela.atualizaLog("[ERRO_THREAD] <-> " + e);
+                System.out.println("[ERRO_THREAD] <-> " + e);
+            }
+            
         }
     }
 
@@ -74,7 +88,6 @@ public class ServidorThread extends Thread {
                 if (sList.remove(cliente)) {
                     tela.atualizaLog("[LOGOUT] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
                     System.out.println("[LOGOUT] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
-
                 }
                 break;
             case "chat":
