@@ -16,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import sistemas.distribuidos.distchat.BingoListModel;
 import sistemas.distribuidos.distchat.JsonConvert;
+import sistemas.distribuidos.distchat.MsgListModel;
 
 /**
  *
@@ -55,6 +56,23 @@ public class ClienteThread extends Thread {
         if (json.getCod().equals("listapronto")) {
             System.out.println("Pegando listapronto");
             getListBingo(json.getList());
+        }
+        if (json.getCod().equals("chat")) {
+            getMsg(json.getList(), json.getMsg());
+        }
+    }
+
+    private void getMsg(JSONArray lista, String msg) {
+        MsgListModel listMsg = MsgListModel.init();
+        JSONObject temp = new JSONObject(lista.get(0).toString());
+
+        listMsg.addElement(temp.getString("NOME"), msg);
+        System.out.println(temp.getString("NOME") + msg);
+
+        try {
+            TimeUnit.MILLISECONDS.sleep(10);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ClienteThread.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
