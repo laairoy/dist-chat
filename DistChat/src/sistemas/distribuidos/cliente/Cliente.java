@@ -62,7 +62,7 @@ public class Cliente {
         enviarMSG(json.toString());
     }
 
-    public void sendMsg(String clienteNome, String msg,DadosCliente dadosCliente) throws IOException {
+    public void sendMsg(String clienteNome, String msg, DadosCliente dadosCliente) throws IOException {
         JsonConvert json = new JsonConvert();
         json.setCod("chat");
         json.setStatus("uni");
@@ -93,5 +93,27 @@ public class Cliente {
         saida.println(msg);
 
         System.out.println("[ENVIANDO] -> " + msg);
+    }
+
+    public void loginBingo(String nome) throws IOException {
+
+        JsonConvert json = new JsonConvert();
+        json.setNome(nome);
+        json.setCod("pronto");
+        json.setStatus("sucesso");
+
+        enviarMSG(json.toString());
+
+    }
+    
+    public void logoutBingo(String nome) throws IOException {
+
+        JsonConvert json = new JsonConvert();
+        json.setNome(nome);
+        json.setCod("pronto");
+        json.setStatus("falha");
+
+        enviarMSG(json.toString());
+
     }
 }
