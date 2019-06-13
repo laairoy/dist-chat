@@ -8,7 +8,6 @@ package sistemas.distribuidos.servidor;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import org.json.JSONObject;
@@ -21,11 +20,13 @@ import sistemas.distribuidos.distchat.JsonConvert;
 public class SocketList {
 
     private static Map<Socket, String> list;
+    private static Map<Socket, String> listBingo;
     private static SocketList socketList;
     UIServidor tela;
 
     private SocketList(UIServidor tela) {
         this.list = new HashMap<>();
+        this.listBingo = new HashMap<>();
         this.tela = tela;
     }
 
@@ -65,7 +66,7 @@ public class SocketList {
             enviarMsg(cli, logout.toString());
 
             enviarLista();
-            
+
             return true;
         }
         return false;
@@ -81,7 +82,7 @@ public class SocketList {
             tela.atualizaClientes(entry.getValue(), entry.getKey().getInetAddress().toString(), entry.getKey().getPort());
         }
 
-        enviarBroadcast(json.toString());
+        enviarBroadcast(json.toString(), list);
     }
 
     private void enviarMsg(Socket cli, String msg) throws IOException {
@@ -90,10 +91,10 @@ public class SocketList {
         System.out.println("[ENVIANDO] -> " + "[" + cli.getInetAddress() + ":" + cli.getPort() + "] " + msg);
     }
 
-    public void enviarBroadcast(String msg) throws IOException {
+    public void enviarBroadcast(String msg, Map<Socket, String> lista) throws IOException {
         tela.atualizaLog("[BROADCAST]");
         System.out.println("[BROADCAST]");
-        for (Socket cli : list.keySet()) {
+        for (Socket cli : lista.keySet()) {
             System.out.print("  ");
             enviarMsg(cli, msg);
         }
@@ -136,6 +137,53 @@ public class SocketList {
         json.setMsg(recebido.getMsg());
         json.addToList(recebido.getNome(), cli.getInetAddress().toString(), cli.getPort());
 
-        enviarBroadcast(json.toString());
+        enviarBroadcast(json.toString(), list);
+    }
+
+    private void enviarListaBingo() throws IOException {
+        JsonConvert json = new JsonConvert();
+        json.setCod("listapronto");
+        tela.resetClientes();
+
+        for (Map.Entry<Socket, String> entry : listBingo.entrySet()) {
+            json.addToList(entry.getValue(), entry.getKey().getInetAddress().toString(), entry.getKey().getPort());
+            //tela.atualizaClientes(entry.getValue(), entry.getKey().getInetAddress().toString(), entry.getKey().getPort());
+        }
+
+        enviarBroadcast(json.toString(), listBingo);
+    }
+
+    public boolean addBingo(Socket cli, JsonConvert json) throws IOException {
+        if (listBingo.containsKey(cli) == false) {
+
+            listBingo.put(cli, json.getNome());
+
+            JsonConvert confirmar = new JsonConvert();
+            confirmar.setCod("rpronto");
+            confirmar.setStatus("sucesso");
+
+            enviarMsg(cli, confirmar.toString());
+
+            enviarListaBingo();
+
+            return true;
+        }
+        return false;
+    }
+    public boolean removeBingo(Socket cli) throws IOException {
+        JsonConvert logout = new JsonConvert();
+        if (listBingo.containsKey(cli) == true) {
+            listBingo.remove(cli);
+
+            logout.setCod("rpronto");
+            logout.setStatus("falha");
+
+            enviarMsg(cli, logout.toString());
+
+            enviarListaBingo();
+
+            return true;
+        }
+        return false;
     }
 }

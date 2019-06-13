@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import sistemas.distribuidos.distchat.BingoListModel;
 import sistemas.distribuidos.distchat.JsonConvert;
 
 /**
@@ -51,6 +52,10 @@ public class ClienteThread extends Thread {
                 System.exit(0);
             }
         }
+        if (json.getCod().equals("listapronto")) {
+            System.out.println("Pegando listapronto");
+            getListBingo(json.getList());
+        }
     }
 
     private void getList(JSONArray lista) {
@@ -67,8 +72,21 @@ public class ClienteThread extends Thread {
             }
         }
 
-        
-
     }
 
+    private void getListBingo(JSONArray lista) {
+        BingoListModel bingoList = BingoListModel.init();
+        bingoList.removeAll();
+
+        for (Object json : lista) {
+            JSONObject temp = new JSONObject(json.toString());
+            bingoList.addElement(temp.getString("NOME"), temp.getString("IP"), Integer.parseInt(temp.getString("PORTA")));
+            try {
+                TimeUnit.MILLISECONDS.sleep(10);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ClienteThread.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }
 }

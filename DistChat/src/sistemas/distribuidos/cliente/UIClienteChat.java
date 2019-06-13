@@ -133,6 +133,11 @@ public class UIClienteChat extends javax.swing.JFrame {
         });
 
         jButton2.setText("jButton2");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -273,6 +278,10 @@ public class UIClienteChat extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

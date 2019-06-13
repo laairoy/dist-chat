@@ -39,7 +39,7 @@ public class ServidorThread extends Thread {
             String msg;
 
             while ((msg = in.readLine()) != null) {
-                
+
                 tela.atualizaLog("[RECEBENDO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "] " + msg);
                 System.out.println("[RECEBENDO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "] " + msg);
 
@@ -57,7 +57,7 @@ public class ServidorThread extends Thread {
 
         } catch (IOException e) {
             SocketList sList = SocketList.init(tela);
-            
+
             try {
                 if (sList.remove(cliente)) {
                     tela.atualizaLog("[ERRO_THREAD] <-> Problema de comunicação");
@@ -69,7 +69,7 @@ public class ServidorThread extends Thread {
                 tela.atualizaLog("[ERRO_THREAD] <-> " + e);
                 System.out.println("[ERRO_THREAD] <-> " + e);
             }
-            
+
         }
     }
 
@@ -98,7 +98,22 @@ public class ServidorThread extends Thread {
                 }
 
                 break;
-
+            case "pronto":
+                switch (json.getStatus()) {
+                    case "sucesso":
+                        if (sList.addBingo(cliente, json)) {
+                            tela.atualizaLog("[LOGIN BINGO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]" + " Usuario: " + json.getNome());
+                            System.out.println("[LOGIN BINGO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]" + " Usuario: " + json.getNome());
+                        }
+                        break;
+                    case "falha":
+                        if (sList.removeBingo(cliente)) {
+                            tela.atualizaLog("[LOGOUT BINGO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
+                            System.out.println("[LOGOUT BINGO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
+                        }
+                        break;
+                }
+                break;
         }
     }
 

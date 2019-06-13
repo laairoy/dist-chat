@@ -12,24 +12,34 @@ import javax.swing.AbstractListModel;
  *
  * @author laairoy
  */
-public class ClienteListModel extends AbstractListModel {
 
-    private static ClienteListModel list;
+import java.util.ArrayList;
+import javax.swing.AbstractListModel;
+
+/**
+ *
+ * @author laairoy
+ */
+
+
+public class BingoListModel extends AbstractListModel {
+
+    private static BingoListModel list;
     private final ArrayList<DadosCliente> aList;
 
-    private ClienteListModel() {
+    private BingoListModel() {
         aList = new ArrayList<>();
     }
 
-    public static ClienteListModel init() {
+    public static BingoListModel init() {
         if (list == null) {
-            list = new ClienteListModel();
+            list = new BingoListModel();
         }
         return list;
     }
 
     public void addElement(String nome, String ip, int porta) {
-        
+
         aList.add(new DadosCliente(nome, ip, porta));
         fireIntervalAdded(this, aList.size() - 1, aList.size() - 1);
     }
@@ -41,7 +51,7 @@ public class ClienteListModel extends AbstractListModel {
 
     @Override
     public int getSize() {
-        
+
         return aList.size();
     }
 
@@ -49,8 +59,8 @@ public class ClienteListModel extends AbstractListModel {
     public Object getElementAt(int arg0) {
         return aList.get(arg0).getNome();
     }
-    
-    public DadosCliente getDadosCliente(int index){
+
+    public DadosCliente getDadosCliente(int index) {
         return aList.get(index);
     }
 
