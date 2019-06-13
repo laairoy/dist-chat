@@ -74,9 +74,11 @@ public class SocketList {
     private void enviarLista() throws IOException {
         JsonConvert json = new JsonConvert();
         json.setCod("lista");
+        tela.resetClientes();
 
         for (Map.Entry<Socket, String> entry : list.entrySet()) {
             json.addToList(entry.getValue(), entry.getKey().getInetAddress().toString(), entry.getKey().getPort());
+            tela.atualizaClientes(entry.getValue(), entry.getKey().getInetAddress().toString(), entry.getKey().getPort());
         }
 
         enviarBroadcast(json.toString());

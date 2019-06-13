@@ -31,17 +31,35 @@ public class UIServidor extends javax.swing.JFrame {
     public UIServidor() {
         initComponents();
         this.setAlwaysOnTop(true);
+        this.resetClientes();
+        this.resetJogadores();
     }
     
-    public void atualizaTela() {
-        
-    }
+    
     
     public void atualizaLog(String msgLog){
        // tLog.setText(msgLog);
         Date date = new Date();
         tLog.append(sdf.format(date) + ": " + msgLog + "\n");
         tLog.setCaretPosition(tLog.getText().length() - 1);
+    }
+    
+    public void resetClientes(){
+        javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) lClientes.getModel();
+        dtm.fireTableDataChanged();
+        dtm.setRowCount(0);
+    }
+    
+    public void resetJogadores(){
+        javax.swing.table.DefaultTableModel dtm2 = (javax.swing.table.DefaultTableModel) lJogadores.getModel();
+        dtm2.fireTableDataChanged();
+        dtm2.setRowCount(0);
+    }
+    
+    public void atualizaClientes(String nome, String ip, int porta){
+        javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) lClientes.getModel();
+        String[] linha = {nome, ip, String.valueOf(porta)};
+        dtm.addRow(linha);  
     }
     
 

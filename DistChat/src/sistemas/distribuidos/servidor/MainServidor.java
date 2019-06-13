@@ -26,12 +26,15 @@ public class MainServidor {
             tela.setVisible(true);
             servidor.start();
         } catch(SocketException e){
-            System.out.println("problemas com a porta");
+            JOptionPane.showMessageDialog(null, "Problemas com a porta");
+            System.exit(0);
         } catch (IOException e){
         } catch (InputMismatchException e){
-            System.out.println("Você não digitou um número válido para porta!");
+            JOptionPane.showMessageDialog(null, "Você não digitou um número válido para porta!");
+            System.exit(0);
         } catch (NumberFormatException e){
             JOptionPane.showMessageDialog(null, "Valor inválido!");
+            System.exit(0);
         }
     }
 }
