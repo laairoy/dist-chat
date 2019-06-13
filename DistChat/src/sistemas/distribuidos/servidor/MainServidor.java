@@ -19,7 +19,7 @@ public class MainServidor {
     public static void main(String[] args){
         try{
             int porta;
-            porta = Integer.parseInt(JOptionPane.showInputDialog("Digite a porta:"));
+            porta = Integer.parseInt(JOptionPane.showInputDialog("Digite a porta:", "22000"));
             
             UIServidor tela = new UIServidor();
             Servidor servidor = new Servidor(porta, tela);
