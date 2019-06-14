@@ -21,6 +21,7 @@ public class UIClienteConectar extends javax.swing.JFrame {
      */
     public UIClienteConectar() {
         initComponents();
+        getRootPane().setDefaultButton(btConectar);
     }
 
     /**
@@ -37,6 +38,8 @@ public class UIClienteConectar extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         tfIP = new javax.swing.JTextField();
         tfPorta = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        tfLogin = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,24 +59,30 @@ public class UIClienteConectar extends javax.swing.JFrame {
 
         tfPorta.setText("22000");
 
+        jLabel3.setText("Nome de usuário:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btConectar))
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfLogin))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfIP, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(tfIP, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfPorta, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)))
+                        .addComponent(tfPorta, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE))
+                    .addComponent(btConectar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -86,7 +95,10 @@ public class UIClienteConectar extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(tfPorta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btConectar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btConectar)
+                    .addComponent(jLabel3)
+                    .addComponent(tfLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -94,18 +106,20 @@ public class UIClienteConectar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConectarActionPerformed
-        try {
-            Cliente.init(tfIP.getText(), Integer.parseInt(tfPorta.getText()));
-            
-            this.dispose();
-            new UIClienteLogin().setVisible(true);
-            
-            //this.setVisible(false);
-            
-        } catch (IOException ex) {
-            Logger.getLogger(UIClienteConectar.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-            
+       if (tfLogin.getText().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite o nome para login", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            try {
+                Cliente cliente = Cliente.init(tfIP.getText(), Integer.parseInt(tfPorta.getText()));
+                cliente.login(tfLogin.getText());
+                this.dispose();
+                new UIClienteChat(tfLogin.getText()).setVisible(true);
+                //this.setVisible(false);
+
+            } catch (IOException ex) {
+                Logger.getLogger(UIClienteConectar.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            }
         }
         
     }//GEN-LAST:event_btConectarActionPerformed
@@ -152,7 +166,9 @@ public class UIClienteConectar extends javax.swing.JFrame {
     private javax.swing.JButton btConectar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField tfIP;
+    private javax.swing.JTextField tfLogin;
     private javax.swing.JTextField tfPorta;
     // End of variables declaration//GEN-END:variables
 }

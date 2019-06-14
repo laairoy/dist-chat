@@ -67,7 +67,7 @@ public class ClienteThread extends Thread {
         JSONObject temp = new JSONObject(lista.get(0).toString());
 
         listMsg.addElement(temp.getString("NOME"), msg);
-        System.out.println(temp.getString("NOME") + msg);
+        //System.out.println(temp.getString("NOME") + msg);
 
         try {
             TimeUnit.MILLISECONDS.sleep(10);

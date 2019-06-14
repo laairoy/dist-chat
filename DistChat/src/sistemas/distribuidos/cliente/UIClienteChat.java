@@ -30,11 +30,13 @@ public class UIClienteChat extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     public UIClienteChat(String nome) {
-
+        
         ClienteListModel list = ClienteListModel.init();
         MsgListModel listMsgModel = MsgListModel.init();
         
         initComponents();
+        cbBroadcast.setSelected(true);
+        getRootPane().setDefaultButton(btEnviar);
 
         this.nome = nome;
 
@@ -122,6 +124,11 @@ public class UIClienteChat extends javax.swing.JFrame {
         btEnviar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btEnviarActionPerformed(evt);
+            }
+        });
+        btEnviar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btEnviarKeyPressed(evt);
             }
         });
 
@@ -234,6 +241,7 @@ public class UIClienteChat extends javax.swing.JFrame {
                 Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        tfEnviar.setText("");
     }//GEN-LAST:event_btEnviarActionPerformed
 
     private void listClientesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listClientesValueChanged
@@ -287,6 +295,10 @@ public class UIClienteChat extends javax.swing.JFrame {
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2MouseClicked
+
+    private void btEnviarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btEnviarKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btEnviarKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

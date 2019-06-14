@@ -50,16 +50,24 @@ public class UIServidor extends javax.swing.JFrame {
         dtm.setRowCount(0);
     }
     
+    public void atualizaClientes(String nome, String ip, int porta){
+        javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) lClientes.getModel();
+        String[] linha = {nome, ip, String.valueOf(porta)};
+        dtm.addRow(linha);  
+    }
+    
+    
+    
     public void resetJogadores(){
         javax.swing.table.DefaultTableModel dtm2 = (javax.swing.table.DefaultTableModel) lJogadores.getModel();
         dtm2.fireTableDataChanged();
         dtm2.setRowCount(0);
     }
     
-    public void atualizaClientes(String nome, String ip, int porta){
-        javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) lClientes.getModel();
+    public void atualizaJogadores(String nome, String ip, int porta){
+        javax.swing.table.DefaultTableModel dtm2 = (javax.swing.table.DefaultTableModel) lJogadores.getModel();
         String[] linha = {nome, ip, String.valueOf(porta)};
-        dtm.addRow(linha);  
+        dtm2.addRow(linha);  
     }
     
 

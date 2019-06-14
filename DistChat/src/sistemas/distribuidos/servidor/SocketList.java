@@ -58,6 +58,7 @@ public class SocketList {
     public boolean remove(Socket cli) throws IOException {
         JsonConvert logout = new JsonConvert();
         if (list.containsKey(cli) == true) {
+            removeBingo(cli);
             list.remove(cli);
 
             logout.setCod("rlogout");
@@ -143,11 +144,11 @@ public class SocketList {
     private void enviarListaBingo() throws IOException {
         JsonConvert json = new JsonConvert();
         json.setCod("listapronto");
-        tela.resetClientes();
+        tela.resetJogadores();
 
         for (Map.Entry<Socket, String> entry : listBingo.entrySet()) {
             json.addToList(entry.getValue(), entry.getKey().getInetAddress().toString(), entry.getKey().getPort());
-            //tela.atualizaClientes(entry.getValue(), entry.getKey().getInetAddress().toString(), entry.getKey().getPort());
+            tela.atualizaJogadores(entry.getValue(), entry.getKey().getInetAddress().toString(), entry.getKey().getPort());
         }
 
         enviarBroadcast(json.toString(), listBingo);
