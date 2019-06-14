@@ -6,12 +6,9 @@
 package sistemas.distribuidos.cliente;
 
 import java.io.IOException;
-import static java.util.Collections.list;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.binding.ListBinding;
 import sistemas.distribuidos.distchat.BingoListModel;
-import sistemas.distribuidos.servidor.SocketList;
 
 /**
  *
