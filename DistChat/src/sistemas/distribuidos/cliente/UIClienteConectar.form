@@ -107,6 +107,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tfLogin">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Username"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

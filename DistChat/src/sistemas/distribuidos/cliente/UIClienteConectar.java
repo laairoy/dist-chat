@@ -61,6 +61,8 @@ public class UIClienteConectar extends javax.swing.JFrame {
 
         jLabel3.setText("Nome de usuário:");
 
+        tfLogin.setText("Username");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(

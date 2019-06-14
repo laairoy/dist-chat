@@ -45,7 +45,6 @@ public class UIClienteChat extends javax.swing.JFrame {
         
         listMsg.setModel(listMsgModel);
         
-        
         bingo = new UIBingo();
 
         try {
