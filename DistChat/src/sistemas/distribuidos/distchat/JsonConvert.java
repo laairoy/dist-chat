@@ -30,7 +30,7 @@ public class JsonConvert {
             json = new JSONObject(data);
 
         } catch (JSONException e) {
-            System.out.println("[ERRO_JSON] <-> " + e);
+            printErro(e);
         }
 
     }
@@ -40,7 +40,13 @@ public class JsonConvert {
     }
 
     public String getCod() {
-        return (String) json.get("COD");
+        String cod = null;
+        try {
+            cod = json.getString("COD");
+        } catch (JSONException e){
+            printErro(e);
+        }
+        return cod;
     }
 
     public void setCod(String codigo) {
@@ -48,7 +54,13 @@ public class JsonConvert {
     }
 
     public String getNome() {
-        return (String) json.get("NOME");
+        String nome = null;
+        try {
+            nome = json.getString("NOME");
+        } catch(JSONException e){
+            printErro(e);
+        }
+        return nome;
     }
 
     public void setNome(String nome) {
@@ -60,7 +72,13 @@ public class JsonConvert {
     }
 
     public String getStatus() {
-        return json.getString("STATUS");
+        String status = null;
+        try {
+            status = json.getString("STATUS");
+        } catch (JSONException e) {
+            printErro(e);
+        }
+        return status;
     }
 
     public void setMsg(String msg) {
@@ -68,7 +86,13 @@ public class JsonConvert {
     }
 
     public String getMsg() {
-        return json.getString("MSG");
+        String msg = null;
+        try {
+            msg = json.getString("MSG");
+        } catch (JSONException e) {
+            printErro(e);
+        }
+        return msg;
     }
 
     public void addToList(String nome, String ip, Integer porta) {
@@ -83,7 +107,13 @@ public class JsonConvert {
     }
 
     public JSONArray getList() {
-        JSONArray temp = new JSONArray(json.get("LISTACLIENTE").toString());
+        JSONArray temp = null;
+        try {
+            temp = new JSONArray(json.get("LISTACLIENTE").toString());
+            return temp;
+        } catch (JSONException e) {
+            printErro(e);
+        }
 
         return temp;
     }
@@ -91,5 +121,9 @@ public class JsonConvert {
     @Override
     public String toString() {
         return json.toString();
+    }
+
+    private void printErro(JSONException e) {
+        System.out.println("[ERRO MSG] <- " + e);
     }
 }

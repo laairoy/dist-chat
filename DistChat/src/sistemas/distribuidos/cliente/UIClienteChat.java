@@ -170,6 +170,9 @@ public class UIClienteChat extends javax.swing.JFrame {
                     .addComponent(jButton2)))
         );
 
+        listMsg.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listMsg.setFocusable(false);
+        listMsg.setVerifyInputWhenFocusTarget(false);
         listMsg.setVisibleRowCount(15);
         jScrollPane3.setViewportView(listMsg);
 

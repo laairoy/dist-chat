@@ -11,8 +11,9 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.SwingUtilities;
+
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import sistemas.distribuidos.distchat.BingoListModel;
 import sistemas.distribuidos.distchat.JsonConvert;
@@ -44,35 +45,37 @@ public class ClienteThread extends Thread {
 
     private void verificarOperacao(String msg) {
         JsonConvert json = new JsonConvert(msg);
-
-        if (json.getCod().equals("lista")) {
-            getList(json.getList());
-        }
-        if (json.getCod().equals("rlogout")) {
-            if (json.getStatus().equals("true") || json.getStatus().equals("sucesso")) {
-                System.exit(0);
-            }
-        }
-        if (json.getCod().equals("listapronto")) {
-            System.out.println("Pegando listapronto");
-            getListBingo(json.getList());
-        }
-        if (json.getCod().equals("chat")) {
-            getMsg(json.getList(), json.getMsg());
+        switch (json.getCod()) {
+            case "lista":
+                getList(json.getList());
+                break;
+            case "rlogout":
+                if (json.getStatus().equals("true") || json.getStatus().equals("sucesso")) {
+                    System.exit(0);
+                }
+                break;
+            case "listapronto":
+                // System.out.println("Pegando listapronto");
+                getListBingo(json.getList());
+                break;
+            case "chat":
+                getMsg(json.getList(), json.getMsg());
+                break;
         }
     }
 
     private void getMsg(JSONArray lista, String msg) {
         MsgListModel listMsg = MsgListModel.init();
-        JSONObject temp = new JSONObject(lista.get(0).toString());
-
-        listMsg.addElement(temp.getString("NOME"), msg);
-        //System.out.println(temp.getString("NOME") + msg);
 
         try {
+            JSONObject temp = new JSONObject(lista.get(0).toString());
+            listMsg.addElement(temp.getString("NOME"), msg);
+            //System.out.println(temp.getString("NOME") + msg);
             TimeUnit.MILLISECONDS.sleep(10);
         } catch (InterruptedException ex) {
             Logger.getLogger(ClienteThread.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JSONException e) {
+            System.out.println("erro");
         }
     }
 
@@ -81,12 +84,14 @@ public class ClienteThread extends Thread {
         cliList.removeAll();
 
         for (Object json : lista) {
-            JSONObject temp = new JSONObject(json.toString());
-            cliList.addElement(temp.getString("NOME"), temp.getString("IP"), Integer.parseInt(temp.getString("PORTA")));
             try {
+                JSONObject temp = new JSONObject(json.toString());
+                cliList.addElement(temp.getString("NOME"), temp.getString("IP"), temp.getInt("PORTA"));
                 TimeUnit.MILLISECONDS.sleep(10);
             } catch (InterruptedException ex) {
                 Logger.getLogger(ClienteThread.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NumberFormatException | JSONException e) {
+                System.out.println("erro");
             }
         }
 
@@ -97,13 +102,17 @@ public class ClienteThread extends Thread {
         bingoList.removeAll();
 
         for (Object json : lista) {
-            JSONObject temp = new JSONObject(json.toString());
-            bingoList.addElement(temp.getString("NOME"), temp.getString("IP"), Integer.parseInt(temp.getString("PORTA")));
             try {
+                JSONObject temp = new JSONObject(json.toString());
+                bingoList.addElement(temp.getString("NOME"), temp.getString("IP"), temp.getInt("PORTA"));
+
                 TimeUnit.MILLISECONDS.sleep(10);
             } catch (InterruptedException ex) {
                 Logger.getLogger(ClienteThread.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (JSONException e) {
+                System.out.println("JSON INVALIDO");
             }
+
         }
 
     }
