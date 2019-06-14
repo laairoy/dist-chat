@@ -46,6 +46,7 @@ public class UIClienteChat extends javax.swing.JFrame {
         listMsg.setModel(listMsgModel);
         
         bingo = new UIBingo();
+        bingo.setNome(this.nome);
 
         try {
             this.cliente = Cliente.init();

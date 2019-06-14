@@ -60,10 +60,8 @@ public class ServidorThread extends Thread {
 
             try {
                 if (sList.remove(cliente)) {
-                    tela.atualizaLog("[ERRO_THREAD] <-> Problema de comunicação");
-                    System.out.println("[ERRO_THREAD] <-> Problema de comunicação");
-                    tela.atualizaLog("[LOGOUT] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
-                    System.out.println("[LOGOUT] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
+                    tela.atualizaLog("[DESCONECTOU] -> " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "] ");
+                    System.out.println("[DESCONECTOU] -> " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "] ");
                 }
             } catch (IOException ex) {
                 tela.atualizaLog("[ERRO_THREAD] <-> " + e);

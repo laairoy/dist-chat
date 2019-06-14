@@ -5,9 +5,13 @@
  */
 package sistemas.distribuidos.cliente;
 
+import java.io.IOException;
 import static java.util.Collections.list;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.binding.ListBinding;
 import sistemas.distribuidos.distchat.BingoListModel;
+import sistemas.distribuidos.servidor.SocketList;
 
 /**
  *
@@ -15,6 +19,7 @@ import sistemas.distribuidos.distchat.BingoListModel;
  */
 public class UIBingo extends javax.swing.JFrame {
 
+    private String nome;
     /**
      * Creates new form UIBingo
      */
@@ -39,10 +44,18 @@ public class UIBingo extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         listBingo = new javax.swing.JList<>();
+        bSairBingo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jScrollPane1.setViewportView(listBingo);
+
+        bSairBingo.setText("Sair do Bingo");
+        bSairBingo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSairBingoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -51,18 +64,35 @@ public class UIBingo extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(387, Short.MAX_VALUE))
+                .addGap(143, 143, 143)
+                .addComponent(bSairBingo)
+                .addContainerGap(135, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(bSairBingo)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void bSairBingoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSairBingoActionPerformed
+        try {
+                Cliente cliente = Cliente.init();
+                cliente.logoutBingo(nome);
+                this.dispose();
+
+        } catch (IOException ex) {
+                Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_bSairBingoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -100,7 +130,15 @@ public class UIBingo extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bSairBingo;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<String> listBingo;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @param nome the nome to set
+     */
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 }
