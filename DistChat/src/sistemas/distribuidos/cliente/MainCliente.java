@@ -16,34 +16,12 @@ import java.util.Scanner;
  */
 public class MainCliente {
 
-    private final Cliente cliente;
-
-    public MainCliente(String ip, int porta) throws IOException {
-        this.cliente = Cliente.init(ip, porta);
-    }
-
-    public static void main(String[] args) {
-        try {
-            Cliente cliente = Cliente.init("127.0.0.1", 22000);
-            Scanner teclado = new Scanner(System.in);
-            while (true) {
-                String x = teclado.nextLine();
-                if (x.equals("login")) {
-                    cliente.login("marden");
-                } else if (x.equals("logout")) {
-                    cliente.logout("marden");
-                }
-
+    public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new UIClienteConectar().setVisible(true);
             }
-        } catch (UnknownHostException | SocketException ex) {
-            System.out.println("Erro Socket");
-        } catch (IOException ex) {
-            System.out.println("Erro de IO");
-        }
-    }
-
-    public void login(String nome) throws IOException {
-        this.cliente.login(nome);
+        });
     }
 
 }
