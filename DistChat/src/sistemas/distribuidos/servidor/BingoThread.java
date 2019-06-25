@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -24,6 +22,7 @@ public class BingoThread extends Thread {
     private Map<Socket, Map<Integer, Boolean>> listaCartelas;
     private ArrayList<Integer> numSorteados;
     private int count;
+    private int numSorteado;
 
     public BingoThread() {
         clear();
@@ -43,7 +42,7 @@ public class BingoThread extends Thread {
             ArrayList<Integer> cartela = new ArrayList<>();
             int range = 1;
 
-            for (int i = 0; i < 75; i++) {
+            for (int i = 0; i < 25; i++) {
                 int num;
                 if (i == 12) {
                     num = 0;
@@ -56,7 +55,8 @@ public class BingoThread extends Thread {
 
                 cartela.add(num);
 
-                if ((float) i % 5 == 0) {
+                if (i != 0 && i % 5 == 0) {
+                   // System.out.println("num: " + i);
                     range += 15;
                 }
             }
@@ -93,12 +93,12 @@ public class BingoThread extends Thread {
 
     }
 
-    private void marcarNumero(int num) {
-        for (Socket soc : listaCartelas.keySet()) {
-            if (listaCartelas.get(soc).containsKey(num) == true) {
-                listaCartelas.get(soc).replace(num, true);
-            }
+    public boolean marcarNumero(Socket cli) {
+        if (listaCartelas.get(cli).containsKey(numSorteado) == false) {
+            return false;
         }
+        listaCartelas.get(cli).replace(numSorteado, true);
+        return true;
     }
 
     public int removerJogador(Socket sock) {
@@ -110,10 +110,12 @@ public class BingoThread extends Thread {
 
         return listaCartelas.size();
     }
-    private void atualizaTempo(){
+
+    private void atualizaTempo() {
         SocketList sList = SocketList.init();
         sList.atualizarTempo(count);
     }
+
     public boolean adicionarJogador(Socket sock) {
         if (started == true) {
             return false;
@@ -133,7 +135,7 @@ public class BingoThread extends Thread {
                 TimeUnit.SECONDS.sleep(1);
                 count++;
                 atualizaTempo();
-                System.out.println("Tempo: " + count);
+                //System.out.println("Tempo: " + count);
                 if (started == false && count == 30) {
                     started = true;
                     count = 0;
@@ -142,9 +144,7 @@ public class BingoThread extends Thread {
                 } else if (started == true && count == 10) {
                     count = 0;
 
-                    int num = sortearNumero();
-                    System.out.println("Numero Sorteado: " + num);
-                    //marcarNumero(num);
+                    numSorteado = sortearNumero();
 
                 }
 

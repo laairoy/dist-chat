@@ -108,6 +108,9 @@ public class ServidorThread extends Thread {
                         break;
                 }
                 break;
+            case "marca":
+                
+                break;
         }
     }
 

@@ -43,7 +43,7 @@ public class JsonConvert {
         String cod = null;
         try {
             cod = json.getString("COD");
-        } catch (JSONException e){
+        } catch (JSONException e) {
             printErro(e);
         }
         return cod;
@@ -57,7 +57,7 @@ public class JsonConvert {
         String nome = null;
         try {
             nome = json.getString("NOME");
-        } catch(JSONException e){
+        } catch (JSONException e) {
             printErro(e);
         }
         return nome;
@@ -105,10 +105,10 @@ public class JsonConvert {
 
         json.put("LISTACLIENTE", list);
     }
-    
+
     public void addToList() {
-        
-      json.put("LISTACLIENTE", new ArrayList<>());
+
+        json.put("LISTACLIENTE", new ArrayList<>());
     }
 
     public JSONArray getList() {
@@ -119,8 +119,6 @@ public class JsonConvert {
         } catch (JSONException e) {
             printErro(e);
         }
-        
-        
 
         return temp;
     }
@@ -133,12 +131,20 @@ public class JsonConvert {
     private void printErro(JSONException e) {
         System.out.println("[ERRO MSG] <- " + e);
     }
-    
-    public void addCartela(ArrayList<Integer> cartela){
+
+    public void addCartela(ArrayList<Integer> cartela) {
         json.put("CARTELA", cartela.toArray());
     }
 
     public void addCartela(int num) {
         json.put("CARTELA", num);
+    }
+
+    public int getCartelaNum() {
+        return json.getInt("CARTELA");
+    }
+
+    public JSONArray getCartela() {
+        return json.getJSONArray("CARTELA");
     }
 }

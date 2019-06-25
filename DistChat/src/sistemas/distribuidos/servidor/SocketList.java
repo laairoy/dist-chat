@@ -104,13 +104,13 @@ public class SocketList {
 
     private void enviarMsg(Socket cli, String msg) throws IOException {
         new PrintStream(cli.getOutputStream()).println(msg);
-        tela.atualizaLog("[ENVIANDO] -> " + "[" + cli.getInetAddress() + ":" + cli.getPort() + "] " + msg);
-        System.out.println("[ENVIANDO] -> " + "[" + cli.getInetAddress() + ":" + cli.getPort() + "] " + msg);
+        atualizarStatus("[ENVIANDO] -> " + "[" + cli.getInetAddress() + ":" + cli.getPort() + "] " + msg);
+
     }
 
     public void enviarBroadcast(String msg, Map<Socket, String> lista) throws IOException {
-        tela.atualizaLog("[BROADCAST]");
-        System.out.println("[BROADCAST]");
+        atualizarStatus("[BROADCAST]");
+
         for (Socket cli : lista.keySet()) {
             System.out.print("  ");
             enviarMsg(cli, msg);
@@ -257,6 +257,28 @@ public class SocketList {
     public void atualizarTempo(int time) {
         if (tela != null) {
             tela.atualizaTempo(time);
+        }
+    }
+
+    public void atualizarStatus(String str) {
+        tela.atualizaLog(str);
+        System.out.println(str);
+    }
+
+    public void marcarNumero(Socket cli, JsonConvert json) {
+        try {
+            int num = json.getCartelaNum();
+            if (json.getStatus() == "sucesso") {
+                boolean res = bingoThread.marcarNumero(cli);
+                
+                if(res == true){
+                    atualizarStatus("[CLIENTE "+ json.getNome() + "]: Tem o número.");
+                } else{
+                     atualizarStatus("[CLIENTE "+ json.getNome() + "]: Nao tem o numero. Mentiu!");
+                }
+            }
+        } catch (Exception e) {
+
         }
     }
 }
