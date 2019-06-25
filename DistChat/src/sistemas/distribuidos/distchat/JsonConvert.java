@@ -105,6 +105,11 @@ public class JsonConvert {
 
         json.put("LISTACLIENTE", list);
     }
+    
+    public void addToList() {
+        
+      json.put("LISTACLIENTE", new ArrayList<>());
+    }
 
     public JSONArray getList() {
         JSONArray temp = null;
@@ -114,6 +119,8 @@ public class JsonConvert {
         } catch (JSONException e) {
             printErro(e);
         }
+        
+        
 
         return temp;
     }
@@ -125,5 +132,13 @@ public class JsonConvert {
 
     private void printErro(JSONException e) {
         System.out.println("[ERRO MSG] <- " + e);
+    }
+    
+    public void addCartela(ArrayList<Integer> cartela){
+        json.put("CARTELA", cartela.toArray());
+    }
+
+    public void addCartela(int num) {
+        json.put("CARTELA", num);
     }
 }

@@ -8,7 +8,6 @@ package sistemas.distribuidos.servidor;
 import java.io.IOException;
 import java.net.SocketException;
 import java.util.InputMismatchException;
-import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 /**

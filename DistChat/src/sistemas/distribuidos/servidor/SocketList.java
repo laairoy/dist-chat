@@ -8,8 +8,10 @@ package sistemas.distribuidos.servidor;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import org.json.JSONObject;
 import sistemas.distribuidos.distchat.JsonConvert;
 
@@ -23,16 +25,30 @@ public class SocketList {
     private static Map<Socket, String> listBingo;
     private static SocketList socketList;
     UIServidor tela;
+    private BingoThread bingoThread = null;
 
     private SocketList(UIServidor tela) {
         this.list = new HashMap<>();
         this.listBingo = new HashMap<>();
         this.tela = tela;
+
+    }
+
+    private SocketList() {
+        this.list = new HashMap<>();
+        this.listBingo = new HashMap<>();
     }
 
     public static SocketList init(UIServidor tela) {
         if (socketList == null) {
             socketList = new SocketList(tela);
+        }
+        return socketList;
+    }
+
+    public static SocketList init() {
+        if (socketList == null) {
+            socketList = new SocketList();
         }
         return socketList;
     }
@@ -127,8 +143,11 @@ public class SocketList {
 
         Socket cliEnviar = buscarCliente(temp.getString("IP"), Integer.parseInt(temp.getString("PORTA")));
 
-        enviarMsg(cliEnviar, json.toString());
+        //envia MSG para o remetente
+        enviarMsg(cli, json.toString());
 
+        //envia MSG para destinatario
+        enviarMsg(cliEnviar, json.toString());
     }
 
     public void msgBroadCast(Socket cli, JsonConvert recebido) throws IOException {
@@ -144,6 +163,8 @@ public class SocketList {
     private void enviarListaBingo() throws IOException {
         JsonConvert json = new JsonConvert();
         json.setCod("listapronto");
+        json.addToList();
+
         tela.resetJogadores();
 
         for (Map.Entry<Socket, String> entry : listBingo.entrySet()) {
@@ -151,30 +172,50 @@ public class SocketList {
             tela.atualizaJogadores(entry.getValue(), entry.getKey().getInetAddress().toString(), entry.getKey().getPort());
         }
 
-        enviarBroadcast(json.toString(), listBingo);
+        enviarBroadcast(json.toString(), list);
     }
 
     public boolean addBingo(Socket cli, JsonConvert json) throws IOException {
         if (listBingo.containsKey(cli) == false) {
+            JsonConvert confirmar = new JsonConvert();
+            confirmar.setCod("rpronto");
+
+            if (bingoThread == null) {
+                bingoThread = new BingoThread();
+            }
+            //jogo ja comecou
+            if (bingoThread.adicionarJogador(cli) == false) {
+                confirmar.setStatus("falha");
+                enviarMsg(cli, confirmar.toString());
+                return false;
+            }
+            if (listBingo.size() == 0) {
+                bingoThread.start();
+            }
 
             listBingo.put(cli, json.getNome());
 
-            JsonConvert confirmar = new JsonConvert();
-            confirmar.setCod("rpronto");
             confirmar.setStatus("sucesso");
 
             enviarMsg(cli, confirmar.toString());
-
             enviarListaBingo();
+            enviarTempo();
 
             return true;
         }
         return false;
     }
+
     public boolean removeBingo(Socket cli) throws IOException {
         JsonConvert logout = new JsonConvert();
         if (listBingo.containsKey(cli) == true) {
+
             listBingo.remove(cli);
+            int size = bingoThread.removerJogador(cli);
+            if (size == 0) {
+                bingoThread = null;
+
+            }
 
             logout.setCod("rpronto");
             logout.setStatus("falha");
@@ -182,9 +223,40 @@ public class SocketList {
             enviarMsg(cli, logout.toString());
 
             enviarListaBingo();
+            enviarTempo();
 
             return true;
         }
         return false;
+    }
+
+    public void enviarCartela(Socket cli, ArrayList<Integer> cartela) throws IOException {
+        JsonConvert json = new JsonConvert();
+        json.setCod("cartela");
+        json.addCartela(cartela);
+
+        enviarMsg(cli, json.toString());
+    }
+
+    private void enviarTempo() throws IOException {
+        JsonConvert json = new JsonConvert();
+        json.setCod("tempo");
+
+        enviarBroadcast(json.toString(), listBingo);
+
+    }
+
+    public void enviarNumero(int num) throws IOException {
+        JsonConvert json = new JsonConvert();
+        json.setCod("sorteado");
+        json.addCartela(num);
+
+        enviarBroadcast(json.toString(), listBingo);
+    }
+
+    public void atualizarTempo(int time) {
+        if (tela != null) {
+            tela.atualizaTempo(time);
+        }
     }
 }

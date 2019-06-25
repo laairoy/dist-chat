@@ -9,8 +9,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import sistemas.distribuidos.distchat.JsonConvert;
 
 /**
@@ -29,8 +27,7 @@ public class ServidorThread extends Thread {
 
     @Override
     public void run() {
-        tela.atualizaLog("[CONEXAO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
-        System.out.println("[CONEXAO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
+        atualizarStatus("[CONEXAO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
 
         try {
 
@@ -40,15 +37,14 @@ public class ServidorThread extends Thread {
 
             while ((msg = in.readLine()) != null) {
 
-                tela.atualizaLog("[RECEBENDO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "] " + msg);
-                System.out.println("[RECEBENDO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "] " + msg);
+                atualizarStatus("[RECEBENDO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "] " + msg);
 
                 verificarOperacao(msg);
             }
 
             if (msg == null) {
-                tela.atualizaLog("[DESCONECTOU] -> " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "] ");
-                System.out.println("[DESCONECTOU] -> " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "] ");
+                atualizarStatus("[DESCONECTOU] -> " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "] ");
+
                 SocketList list = SocketList.init(tela);
                 list.remove(cliente);
             }
@@ -60,12 +56,12 @@ public class ServidorThread extends Thread {
 
             try {
                 if (sList.remove(cliente)) {
-                    tela.atualizaLog("[DESCONECTOU] -> " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "] ");
-                    System.out.println("[DESCONECTOU] -> " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "] ");
+                    atualizarStatus("[DESCONECTOU] -> " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "] ");
+
                 }
             } catch (IOException ex) {
-                tela.atualizaLog("[ERRO_THREAD] <-> " + e);
-                System.out.println("[ERRO_THREAD] <-> " + e);
+                atualizarStatus("[ERRO_THREAD] <-> " + e);
+
             }
 
         }
@@ -77,15 +73,15 @@ public class ServidorThread extends Thread {
         switch (json.getCod()) {
             case "login":
                 if (sList.add(cliente, json)) {
-                    tela.atualizaLog("[LOGIN] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]" + " Usuario: " + json.getNome());
-                    System.out.println("[LOGIN] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]" + " Usuario: " + json.getNome());
+                    atualizarStatus("[LOGIN] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]" + " Usuario: " + json.getNome());
+
                 }
                 break;
 
             case "logout":
                 if (sList.remove(cliente)) {
-                    tela.atualizaLog("[LOGOUT] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
-                    System.out.println("[LOGOUT] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
+                    atualizarStatus("[LOGOUT] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
+
                 }
                 break;
             case "chat":
@@ -100,19 +96,24 @@ public class ServidorThread extends Thread {
                 switch (json.getStatus()) {
                     case "sucesso":
                         if (sList.addBingo(cliente, json)) {
-                            tela.atualizaLog("[LOGIN BINGO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]" + " Usuario: " + json.getNome());
-                            System.out.println("[LOGIN BINGO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]" + " Usuario: " + json.getNome());
+                            atualizarStatus("[LOGIN BINGO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]" + " Usuario: " + json.getNome());
+
                         }
                         break;
                     case "falha":
                         if (sList.removeBingo(cliente)) {
-                            tela.atualizaLog("[LOGOUT BINGO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
-                            System.out.println("[LOGOUT BINGO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
+                            atualizarStatus("[LOGOUT BINGO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
+
                         }
                         break;
                 }
                 break;
         }
+    }
+
+    private void atualizarStatus(String str) {
+        tela.atualizaLog(str);
+        System.out.println(str);
     }
 
 }

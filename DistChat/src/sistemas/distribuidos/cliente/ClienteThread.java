@@ -47,7 +47,10 @@ public class ClienteThread extends Thread {
         JsonConvert json = new JsonConvert(msg);
         switch (json.getCod()) {
             case "lista":
-                getList(json.getList());
+                JSONArray list = json.getList();
+                if (list != null) {
+                    getList(list);
+                }
                 break;
             case "rlogout":
                 if (json.getStatus().equals("true") || json.getStatus().equals("sucesso")) {
@@ -55,11 +58,18 @@ public class ClienteThread extends Thread {
                 }
                 break;
             case "listapronto":
-                // System.out.println("Pegando listapronto");
-                getListBingo(json.getList());
+                JSONArray listp = json.getList();
+                if (listp != null) {
+                    getListBingo(listp);
+                }
                 break;
             case "chat":
-                getMsg(json.getList(), json.getMsg());
+                JSONArray listm = json.getList();
+                String msgm = json.getMsg();
+                if (listm != null && msgm != null) {
+                    getMsg(listm, msgm);
+                }
+
                 break;
         }
     }
