@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import sistemas.distribuidos.distchat.BingoListModel;
 import sistemas.distribuidos.distchat.DadosCliente;
 import sistemas.distribuidos.distchat.MsgListModel;
@@ -54,9 +55,14 @@ public class UIClienteChat extends javax.swing.JFrame {
         bSairBingo.setEnabled(false);
         b12.setEnabled(false);
         
+        resetTela();
+    }
+    
+    public void resetTela(){
         bMarcar.setEnabled(false);
         bNaoMarcar.setEnabled(false);
         bBingo.setEnabled(false);
+        lSorteio.setText("00");
     }
     
     
@@ -81,12 +87,25 @@ public class UIClienteChat extends javax.swing.JFrame {
     }
     
     public void mostrarCartela(int[] cartela) {
-        this.cartela = cartela;
-        b0.setText(Integer.toString(cartela[0])); b1.setText(Integer.toString(cartela[1])); b2.setText(Integer.toString(cartela[2])); b3.setText(Integer.toString(cartela[3])); b4.setText(Integer.toString(cartela[4]));
-        b5.setText(Integer.toString(cartela[5])); b6.setText(Integer.toString(cartela[6])); b7.setText(Integer.toString(cartela[7])); b8.setText(Integer.toString(cartela[8])); b9.setText(Integer.toString(cartela[9]));
-        b10.setText(Integer.toString(cartela[10])); b11.setText(Integer.toString(cartela[11])); b12.setText(Integer.toString(cartela[12])); b13.setText(Integer.toString(cartela[13])); b14.setText(Integer.toString(cartela[14]));
-        b15.setText(Integer.toString(cartela[15])); b16.setText(Integer.toString(cartela[16])); b17.setText(Integer.toString(cartela[17])); b18.setText(Integer.toString(cartela[18])); b19.setText(Integer.toString(cartela[19]));
-        b20.setText(Integer.toString(cartela[20])); b21.setText(Integer.toString(cartela[21])); b22.setText(Integer.toString(cartela[22])); b23.setText(Integer.toString(cartela[23])); b24.setText(Integer.toString(cartela[24]));
+        if (cartela.length == 25) {
+            this.cartela = cartela;
+            b0.setText(Integer.toString(cartela[0])); b1.setText(Integer.toString(cartela[1])); b2.setText(Integer.toString(cartela[2])); b3.setText(Integer.toString(cartela[3])); b4.setText(Integer.toString(cartela[4]));
+            b5.setText(Integer.toString(cartela[5])); b6.setText(Integer.toString(cartela[6])); b7.setText(Integer.toString(cartela[7])); b8.setText(Integer.toString(cartela[8])); b9.setText(Integer.toString(cartela[9]));
+            b10.setText(Integer.toString(cartela[10])); b11.setText(Integer.toString(cartela[11])); b12.setText(Integer.toString(cartela[12])); b13.setText(Integer.toString(cartela[13])); b14.setText(Integer.toString(cartela[14]));
+            b15.setText(Integer.toString(cartela[15])); b16.setText(Integer.toString(cartela[16])); b17.setText(Integer.toString(cartela[17])); b18.setText(Integer.toString(cartela[18])); b19.setText(Integer.toString(cartela[19]));
+            b20.setText(Integer.toString(cartela[20])); b21.setText(Integer.toString(cartela[21])); b22.setText(Integer.toString(cartela[22])); b23.setText(Integer.toString(cartela[23])); b24.setText(Integer.toString(cartela[24]));
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Erro no recebimento da cartela!");
+            try {
+                cliente.logoutBingo(nome);
+                bSairBingo.setEnabled(false);
+                bEntrarBingo.setEnabled(false);
+            } catch (IOException ex) {
+                Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        
     }
     
     public void mostraSorteado(int sorteado){
@@ -153,6 +172,12 @@ public class UIClienteChat extends javax.swing.JFrame {
       }
     }
 
+    
+    public void jogoIniciado(String msg) {
+        JOptionPane.showMessageDialog(rootPane, msg);
+        bEntrarBingo.setEnabled(true);
+        bSairBingo.setEnabled(false);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -806,21 +831,17 @@ public class UIClienteChat extends javax.swing.JFrame {
             this.dispose();
         } catch (IOException ex) {
             Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NullPointerException ex) {
-            System.out.println(this.nome);
-        }
+        } 
 
     }//GEN-LAST:event_bLogoutActionPerformed
 
     private void bEntrarBingoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEntrarBingoActionPerformed
         // TODO add your handling code here:
             try {
-
                 cliente.loginBingo(nome);
                 bEntrarBingo.setEnabled(false);
                 bSairBingo.setEnabled(true);
                 
-
             } catch (IOException ex) {
                 Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -856,6 +877,7 @@ public class UIClienteChat extends javax.swing.JFrame {
                 cliente.logoutBingo(nome);
                 bSairBingo.setEnabled(false);
                 bEntrarBingo.setEnabled(true);
+                resetTela();
 
         } catch (IOException ex) {
                 Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
