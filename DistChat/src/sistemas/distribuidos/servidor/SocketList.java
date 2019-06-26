@@ -281,4 +281,8 @@ public class SocketList {
 
         }
     }
+    
+    public void pausarBingo(){
+        bingoThread.pausarBingo();
+    }
 }

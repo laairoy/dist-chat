@@ -23,6 +23,7 @@ public class BingoThread extends Thread {
     private ArrayList<Integer> numSorteados;
     private int count;
     private int numSorteado;
+    private boolean pausa;
 
     public BingoThread() {
         clear();
@@ -33,6 +34,7 @@ public class BingoThread extends Thread {
         this.numSorteados = new ArrayList<>();
         this.listaCartelas = new HashMap<>();
         this.count = 0;
+        this.pausa = false;
         atualizaTempo();
     }
 
@@ -56,7 +58,7 @@ public class BingoThread extends Thread {
                 cartela.add(num);
 
                 if (i != 0 && i % 5 == 0) {
-                   // System.out.println("num: " + i);
+                    // System.out.println("num: " + i);
                     range += 15;
                 }
             }
@@ -128,28 +130,37 @@ public class BingoThread extends Thread {
         return true;
     }
 
+    public void pausarBingo() {
+        pausa = !pausa;
+        System.out.println("[Bingo] pausa: " + pausa);
+    }
+
     @Override
     public void run() {
         while (listaCartelas.size() > 0) {
+
             try {
                 TimeUnit.SECONDS.sleep(1);
-                count++;
-                atualizaTempo();
-                //System.out.println("Tempo: " + count);
-                if (started == false && count == 30) {
-                    started = true;
-                    count = 0;
-                    sortearCartelas();
+                if (pausa == false) {
+                    count++;
+                    atualizaTempo();
+                    //System.out.println("Tempo: " + count);
+                    if (started == false && count == 30) {
+                        started = true;
+                        count = 0;
+                        sortearCartelas();
 
-                } else if (started == true && count == 10) {
-                    count = 0;
+                    } else if (started == true && count == 10) {
+                        count = 0;
 
-                    numSorteado = sortearNumero();
+                        numSorteado = sortearNumero();
 
+                    }
                 }
 
             } catch (InterruptedException ex) {
                 System.out.print(ex);
+
             }
         }
         clear();
