@@ -137,11 +137,24 @@ public class JsonConvert {
     }
 
     public void addCartela(int num) {
-        json.put("CARTELA", num);
+        ArrayList<Integer> temp = new ArrayList<>();
+        temp.add(num);
+        json.put("CARTELA", temp.toArray());
+       // json.put("CARTELA", num);
     }
 
     public int getCartelaNum() {
-        return json.getInt("CARTELA");
+        int num = 0;
+        try {
+            num = json.getJSONArray("CARTELA").getInt(0);
+        } catch (Exception e) {
+            try {
+                num = json.getInt("CARTELA");
+            } catch (Exception e2) {
+                System.out.println("Erro: " + e2);
+            }
+        }
+        return num;
     }
 
     public JSONArray getCartela() {
