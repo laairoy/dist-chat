@@ -109,7 +109,8 @@ public class ServidorThread extends Thread {
                 }
                 break;
             case "marca":
-                
+                //System.out.println("marcando!!!");
+                sList.marcarNumero(cliente, json);
                 break;
         }
     }

@@ -276,10 +276,10 @@ public class SocketList {
 
     public void marcarNumero(Socket cli, JsonConvert json) {
         try {
-            int num = json.getCartelaNum();
-            if (json.getStatus() == "sucesso") {
+            //int num = json.getCartelaNum();
+            if (json.getStatus().equals("sucesso")) {
                 boolean res = bingoThread.marcarNumero(cli);
-
+                //System.out.println("testes: " + res);
                 if (res == true) {
                     atualizarStatus("[CLIENTE " + json.getNome() + "]: Tem o número.");
                 } else {
@@ -287,7 +287,7 @@ public class SocketList {
                 }
             }
         } catch (Exception e) {
-
+            System.out.print("[ERRO]: " + e);
         }
     }
 
