@@ -20,11 +20,12 @@ import sistemas.distribuidos.distchat.MsgListModel;
  * @author laairoy
  */
 public class UIClienteChat extends javax.swing.JFrame {
-
+    
     private final String nome;
     private Cliente cliente;
     private int sorteado;
     private int[] cartela;
+
     /**
      * Creates new form ClienteChat
      *
@@ -41,9 +42,9 @@ public class UIClienteChat extends javax.swing.JFrame {
         initComponents();
         cbBroadcast.setSelected(true);
         getRootPane().setDefaultButton(btEnviar);
-
+        
         this.nome = nome;
-
+        
         listClientes.setModel(list);
         listClientes.setVisibleRowCount(10);
         
@@ -58,15 +59,14 @@ public class UIClienteChat extends javax.swing.JFrame {
         resetTela();
     }
     
-    public void resetTela(){
+    public void resetTela() {
         bMarcar.setEnabled(false);
         bNaoMarcar.setEnabled(false);
         bBingo.setEnabled(false);
         lSorteio.setText("00");
     }
     
-    
-    public void initCliente(){
+    public void initCliente() {
         try {
             this.cliente = Cliente.init();
         } catch (IOException ex) {
@@ -74,8 +74,8 @@ public class UIClienteChat extends javax.swing.JFrame {
         }
     }
     
-    public void aguardarJogadores(){
-    /*   for(int t = 30; t >= 0; t--) {
+    public void aguardarJogadores() {
+        /*   for(int t = 30; t >= 0; t--) {
            try {
                TimeUnit.SECONDS.sleep(1);
                lTempo.setText("Aguarde " + t + " segundos");
@@ -89,11 +89,31 @@ public class UIClienteChat extends javax.swing.JFrame {
     public void mostrarCartela(int[] cartela) {
         if (cartela.length == 25) {
             this.cartela = cartela;
-            b0.setText(Integer.toString(cartela[0])); b1.setText(Integer.toString(cartela[1])); b2.setText(Integer.toString(cartela[2])); b3.setText(Integer.toString(cartela[3])); b4.setText(Integer.toString(cartela[4]));
-            b5.setText(Integer.toString(cartela[5])); b6.setText(Integer.toString(cartela[6])); b7.setText(Integer.toString(cartela[7])); b8.setText(Integer.toString(cartela[8])); b9.setText(Integer.toString(cartela[9]));
-            b10.setText(Integer.toString(cartela[10])); b11.setText(Integer.toString(cartela[11])); b12.setText(Integer.toString(cartela[12])); b13.setText(Integer.toString(cartela[13])); b14.setText(Integer.toString(cartela[14]));
-            b15.setText(Integer.toString(cartela[15])); b16.setText(Integer.toString(cartela[16])); b17.setText(Integer.toString(cartela[17])); b18.setText(Integer.toString(cartela[18])); b19.setText(Integer.toString(cartela[19]));
-            b20.setText(Integer.toString(cartela[20])); b21.setText(Integer.toString(cartela[21])); b22.setText(Integer.toString(cartela[22])); b23.setText(Integer.toString(cartela[23])); b24.setText(Integer.toString(cartela[24]));
+            b0.setText(Integer.toString(cartela[0]));
+            b1.setText(Integer.toString(cartela[1]));
+            b2.setText(Integer.toString(cartela[2]));
+            b3.setText(Integer.toString(cartela[3]));
+            b4.setText(Integer.toString(cartela[4]));
+            b5.setText(Integer.toString(cartela[5]));
+            b6.setText(Integer.toString(cartela[6]));
+            b7.setText(Integer.toString(cartela[7]));
+            b8.setText(Integer.toString(cartela[8]));
+            b9.setText(Integer.toString(cartela[9]));
+            b10.setText(Integer.toString(cartela[10]));
+            b11.setText(Integer.toString(cartela[11]));
+            b12.setText(Integer.toString(cartela[12]));
+            b13.setText(Integer.toString(cartela[13]));
+            b14.setText(Integer.toString(cartela[14]));
+            b15.setText(Integer.toString(cartela[15]));
+            b16.setText(Integer.toString(cartela[16]));
+            b17.setText(Integer.toString(cartela[17]));
+            b18.setText(Integer.toString(cartela[18]));
+            b19.setText(Integer.toString(cartela[19]));
+            b20.setText(Integer.toString(cartela[20]));
+            b21.setText(Integer.toString(cartela[21]));
+            b22.setText(Integer.toString(cartela[22]));
+            b23.setText(Integer.toString(cartela[23]));
+            b24.setText(Integer.toString(cartela[24]));
         } else {
             JOptionPane.showMessageDialog(rootPane, "Erro no recebimento da cartela!");
             try {
@@ -108,7 +128,7 @@ public class UIClienteChat extends javax.swing.JFrame {
         
     }
     
-    public void mostraSorteado(int sorteado){
+    public void mostraSorteado(int sorteado) {
         this.sorteado = sorteado;
         lSorteio.setText(Integer.toString(sorteado));
         bMarcar.setEnabled(true);
@@ -116,68 +136,92 @@ public class UIClienteChat extends javax.swing.JFrame {
         bBingo.setEnabled(true);
     }
     
-    
-    public void verificaNumCartela(){
-      if (cartela != null) {
-        if (cartela[0] == sorteado)
-            b0.setEnabled(false);
-        if (cartela[1] == sorteado)
-            b1.setEnabled(false);
-        if (cartela[2] == sorteado)
-            b2.setEnabled(false);
-        if (cartela[3] == sorteado)
-            b3.setEnabled(false);
-        if (cartela[4] == sorteado)
-            b4.setEnabled(false);
-        if (cartela[5] == sorteado)
-            b5.setEnabled(false);
-        if (cartela[6] == sorteado)
-            b6.setEnabled(false);
-        if (cartela[7] == sorteado)
-            b7.setEnabled(false);
-        if (cartela[8] == sorteado)
-            b8.setEnabled(false);
-        if (cartela[9] == sorteado)
-            b9.setEnabled(false);
-        if (cartela[10] == sorteado)
-            b10.setEnabled(false);
-        if (cartela[11] == sorteado)
-            b11.setEnabled(false);
-        if (cartela[12] == sorteado)
-            b12.setEnabled(false);
-        if (cartela[13] == sorteado)
-            b13.setEnabled(false);
-        if (cartela[14] == sorteado)
-            b14.setEnabled(false);
-        if (cartela[15] == sorteado)
-            b15.setEnabled(false);
-        if (cartela[16] == sorteado)
-            b16.setEnabled(false);
-        if (cartela[17] == sorteado)
-            b17.setEnabled(false);
-        if (cartela[18] == sorteado)
-            b18.setEnabled(false);
-        if (cartela[19] == sorteado)
-            b19.setEnabled(false);
-        if (cartela[20] == sorteado)
-            b20.setEnabled(false);
-        if (cartela[21] == sorteado)
-            b21.setEnabled(false);
-        if (cartela[22] == sorteado)
-            b22.setEnabled(false);
-        if (cartela[23] == sorteado)
-            b23.setEnabled(false);
-        if (cartela[24] == sorteado)
-            b24.setEnabled(false);
-      }
+    public void verificaNumCartela() {
+        if (cartela != null) {
+            if (cartela[0] == sorteado) {
+                b0.setEnabled(false);
+            }
+            if (cartela[1] == sorteado) {
+                b1.setEnabled(false);
+            }
+            if (cartela[2] == sorteado) {
+                b2.setEnabled(false);
+            }
+            if (cartela[3] == sorteado) {
+                b3.setEnabled(false);
+            }
+            if (cartela[4] == sorteado) {
+                b4.setEnabled(false);
+            }
+            if (cartela[5] == sorteado) {
+                b5.setEnabled(false);
+            }
+            if (cartela[6] == sorteado) {
+                b6.setEnabled(false);
+            }
+            if (cartela[7] == sorteado) {
+                b7.setEnabled(false);
+            }
+            if (cartela[8] == sorteado) {
+                b8.setEnabled(false);
+            }
+            if (cartela[9] == sorteado) {
+                b9.setEnabled(false);
+            }
+            if (cartela[10] == sorteado) {
+                b10.setEnabled(false);
+            }
+            if (cartela[11] == sorteado) {
+                b11.setEnabled(false);
+            }
+            if (cartela[12] == sorteado) {
+                b12.setEnabled(false);
+            }
+            if (cartela[13] == sorteado) {
+                b13.setEnabled(false);
+            }
+            if (cartela[14] == sorteado) {
+                b14.setEnabled(false);
+            }
+            if (cartela[15] == sorteado) {
+                b15.setEnabled(false);
+            }
+            if (cartela[16] == sorteado) {
+                b16.setEnabled(false);
+            }
+            if (cartela[17] == sorteado) {
+                b17.setEnabled(false);
+            }
+            if (cartela[18] == sorteado) {
+                b18.setEnabled(false);
+            }
+            if (cartela[19] == sorteado) {
+                b19.setEnabled(false);
+            }
+            if (cartela[20] == sorteado) {
+                b20.setEnabled(false);
+            }
+            if (cartela[21] == sorteado) {
+                b21.setEnabled(false);
+            }
+            if (cartela[22] == sorteado) {
+                b22.setEnabled(false);
+            }
+            if (cartela[23] == sorteado) {
+                b23.setEnabled(false);
+            }
+            if (cartela[24] == sorteado) {
+                b24.setEnabled(false);
+            }
+        }
     }
-
     
     public void jogoIniciado(String msg) {
         JOptionPane.showMessageDialog(rootPane, msg);
         bEntrarBingo.setEnabled(true);
         bSairBingo.setEnabled(false);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -514,7 +558,7 @@ public class UIClienteChat extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel6)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
             .addComponent(b11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(b12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(b13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -566,7 +610,7 @@ public class UIClienteChat extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel7)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
             .addComponent(b16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(b17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(b18, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -585,7 +629,7 @@ public class UIClienteChat extends javax.swing.JFrame {
                 .addComponent(b17, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(b18, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(b19, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -618,7 +662,7 @@ public class UIClienteChat extends javax.swing.JFrame {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel8)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
             .addComponent(b21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(b22, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(b23, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -671,7 +715,7 @@ public class UIClienteChat extends javax.swing.JFrame {
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -797,9 +841,13 @@ public class UIClienteChat extends javax.swing.JFrame {
     private void cbBroadcastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbBroadcastActionPerformed
 
     }//GEN-LAST:event_cbBroadcastActionPerformed
-
+    
+    public void atualizarTempo(int count) {
+        lTempo.setText(count + "");
+    }
+    
     private void btEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEnviarActionPerformed
-
+        
         if (tfEnviar.getText().isEmpty() == false) {
             try {
                 if (cbBroadcast.isSelected()) {
@@ -824,27 +872,27 @@ public class UIClienteChat extends javax.swing.JFrame {
     }//GEN-LAST:event_cbBroadcastStateChanged
 
     private void bLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bLogoutActionPerformed
-
+        
         try {
             cliente.logout(this.nome);
-
+            
             this.dispose();
         } catch (IOException ex) {
             Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }        
 
     }//GEN-LAST:event_bLogoutActionPerformed
 
     private void bEntrarBingoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEntrarBingoActionPerformed
         // TODO add your handling code here:
-            try {
-                cliente.loginBingo(nome);
-                bEntrarBingo.setEnabled(false);
-                bSairBingo.setEnabled(true);
-                
-            } catch (IOException ex) {
-                Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            cliente.loginBingo(nome);
+            bEntrarBingo.setEnabled(false);
+            bSairBingo.setEnabled(true);
+            
+        } catch (IOException ex) {
+            Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_bEntrarBingoActionPerformed
 
     private void bEntrarBingoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bEntrarBingoMouseClicked
@@ -857,13 +905,13 @@ public class UIClienteChat extends javax.swing.JFrame {
 
     private void bNaoMarcarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNaoMarcarActionPerformed
         try {
-               
-                cliente.marca(nome, "falha", sorteado);
-                bMarcar.setEnabled(false);
-                bNaoMarcar.setEnabled(false);
-
+            
+            cliente.marca(nome, "falha", sorteado);
+            bMarcar.setEnabled(false);
+            bNaoMarcar.setEnabled(false);
+            
         } catch (IOException ex) {
-                Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
         }  // TODO add your handling code here:
     }//GEN-LAST:event_bNaoMarcarActionPerformed
 
@@ -873,30 +921,30 @@ public class UIClienteChat extends javax.swing.JFrame {
 
     private void bSairBingoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSairBingoActionPerformed
         try {
-               
-                cliente.logoutBingo(nome);
-                bSairBingo.setEnabled(false);
-                bEntrarBingo.setEnabled(true);
-                resetTela();
-
+            
+            cliente.logoutBingo(nome);
+            bSairBingo.setEnabled(false);
+            bEntrarBingo.setEnabled(true);
+            resetTela();
+            
         } catch (IOException ex) {
-                Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
         }        // TODO add your handling code here:
     }//GEN-LAST:event_bSairBingoActionPerformed
 
     private void bMarcarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bMarcarActionPerformed
-          
+        
         try {
-                cliente.marca(nome, "sucesso", sorteado);
-                bMarcar.setEnabled(false);
-                bNaoMarcar.setEnabled(false);
-
+            cliente.marca(nome, "sucesso", sorteado);
+            bMarcar.setEnabled(false);
+            bNaoMarcar.setEnabled(false);
+            
         } catch (IOException ex) {
-                Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
-        }   
+            Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
+        }        
         
         verificaNumCartela();
-
+        
 
     }//GEN-LAST:event_bMarcarActionPerformed
 

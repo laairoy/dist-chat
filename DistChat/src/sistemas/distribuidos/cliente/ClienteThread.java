@@ -47,6 +47,10 @@ public class ClienteThread extends Thread {
 
     private void verificarOperacao(String msg) {
         JsonConvert json = new JsonConvert(msg);
+        BingoThread bingo = new BingoThread(tela);
+        bingo.setRun(true);
+        
+
         switch (json.getCod()) {
             case "lista":
                 JSONArray list = json.getList();
@@ -73,18 +77,21 @@ public class ClienteThread extends Thread {
                 }
                 break;
             case "tempo":
-                tela.aguardarJogadores();
+                bingo.start();
+
                 break;
             case "cartela":
                 JSONArray cartela = json.getCartela();
-                if (cartela != null)
+                if (cartela != null) {
                     cartelaToTela(cartela);
+                }
+
                 break;
             case "sorteado":
                 tela.mostraSorteado(json.getCartelaNum());
                 break;
             case "rpronto":
-                if(json.getMsg()!=null){
+                if (json.getMsg() != null) {
                     if (json.getStatus().equals("false") || json.getStatus().equals("falha")) {
                         tela.jogoIniciado(json.getMsg());
                     }
@@ -145,13 +152,13 @@ public class ClienteThread extends Thread {
         }
 
     }
-    
+
     public void cartelaToTela(JSONArray cartela) {
         int[] temp = new int[cartela.length()];
         for (int i = 0; i < cartela.length(); i++) {
             temp[i] = (Integer) cartela.get(i);
         }
         tela.mostrarCartela(temp);
-        
+
     }
 }
