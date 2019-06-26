@@ -21,16 +21,18 @@ public class Cliente {
     private final int porta;
     private final Socket conexao;
     private static Cliente cliente;
+    private UIClienteChat tela;
 
-    private Cliente(String ip, int porta) throws IOException {
+    private Cliente(String ip, int porta, UIClienteChat tela) throws IOException {
         this.ip = ip;
         this.porta = porta;
         this.conexao = new Socket(this.ip, this.porta);
+        this.tela = tela;
     }
 
-    public static Cliente init(String ip, int porta) throws IOException {
+    public static Cliente init(String ip, int porta, UIClienteChat tela) throws IOException {
         if (Cliente.cliente == null) {
-            Cliente.cliente = new Cliente(ip, porta);
+            Cliente.cliente = new Cliente(ip, porta, tela);
         }
 
         return Cliente.cliente;
@@ -84,7 +86,7 @@ public class Cliente {
     }
 
     private void aguardarResposta() throws IOException {
-        ClienteThread receber = new ClienteThread(conexao.getInputStream());
+        ClienteThread receber = new ClienteThread(conexao.getInputStream(), tela);
         receber.start();
     }
 
@@ -115,5 +117,19 @@ public class Cliente {
 
         enviarMSG(json.toString());
 
+    }
+    
+    public void marca (String nome, String status, int num) throws IOException {
+        JsonConvert json = new JsonConvert();
+        json.setCod("marca");
+        json.setNome(nome);
+        json.addCartela(num);
+        if (status.equals("sucesso")) {
+            json.setStatus("sucesso");
+        } else {
+            json.setStatus("falha");
+        }
+          
+        enviarMSG(json.toString());
     }
 }

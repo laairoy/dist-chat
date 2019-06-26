@@ -26,9 +26,11 @@ import sistemas.distribuidos.distchat.MsgListModel;
 public class ClienteThread extends Thread {
 
     private final InputStream entradaDados;
+    private UIClienteChat tela;
 
-    public ClienteThread(InputStream entradaDados) {
+    public ClienteThread(InputStream entradaDados, UIClienteChat tela) {
         this.entradaDados = entradaDados;
+        this.tela = tela;
     }
 
     @Override
@@ -69,7 +71,17 @@ public class ClienteThread extends Thread {
                 if (listm != null && msgm != null) {
                     getMsg(listm, msgm);
                 }
-
+                break;
+            case "tempo":
+                tela.aguardarJogadores();
+                break;
+            case "cartela":
+                JSONArray cartela = json.getCartela();
+                if (cartela != null)
+                    cartelaToTela(cartela);
+                break;
+            case "sorteado":
+                tela.mostraSorteado(json.getCartelaNum());
                 break;
         }
     }
@@ -125,5 +137,14 @@ public class ClienteThread extends Thread {
 
         }
 
+    }
+    
+    public void cartelaToTela(JSONArray cartela) {
+        int[] temp = new int[cartela.length()];
+        for (int i = 0; i < cartela.length(); i++) {
+            temp[i] = (Integer) cartela.get(i);
+        }
+        tela.mostrarCartela(temp);
+        
     }
 }

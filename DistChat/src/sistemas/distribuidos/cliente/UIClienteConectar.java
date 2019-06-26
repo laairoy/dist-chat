@@ -112,10 +112,12 @@ public class UIClienteConectar extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Digite o nome para login", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         } else {
             try {
-                Cliente cliente = Cliente.init(tfIP.getText(), Integer.parseInt(tfPorta.getText()));
+                UIClienteChat telaChat = new UIClienteChat(tfLogin.getText());
+                Cliente cliente = Cliente.init(tfIP.getText(), Integer.parseInt(tfPorta.getText()), telaChat);
                 cliente.login(tfLogin.getText());
                 this.dispose();
-                new UIClienteChat(tfLogin.getText()).setVisible(true);
+                telaChat.initCliente();
+                telaChat.setVisible(true);
                 //this.setVisible(false);
 
             } catch (IOException ex) {
