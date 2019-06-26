@@ -135,6 +135,9 @@ public class BingoThread extends Thread {
         System.out.println("[Bingo] pausa: " + pausa);
     }
 
+    public boolean isStarted(){
+        return started;
+    }
     @Override
     public void run() {
         while (listaCartelas.size() > 0) {

@@ -186,6 +186,7 @@ public class SocketList {
             //jogo ja comecou
             if (bingoThread.adicionarJogador(cli) == false) {
                 confirmar.setStatus("falha");
+                confirmar.setMsg("O jogo ja começou!");
                 enviarMsg(cli, confirmar.toString());
                 return false;
             }
@@ -223,6 +224,7 @@ public class SocketList {
             enviarMsg(cli, logout.toString());
 
             enviarListaBingo();
+
             enviarTempo();
 
             return true;
@@ -239,10 +241,13 @@ public class SocketList {
     }
 
     private void enviarTempo() throws IOException {
-        JsonConvert json = new JsonConvert();
-        json.setCod("tempo");
 
-        enviarBroadcast(json.toString(), listBingo);
+        if (bingoThread.isStarted() == false) {
+            JsonConvert json = new JsonConvert();
+            json.setCod("tempo");
+
+            enviarBroadcast(json.toString(), listBingo);
+        }
 
     }
 
@@ -270,19 +275,19 @@ public class SocketList {
             int num = json.getCartelaNum();
             if (json.getStatus() == "sucesso") {
                 boolean res = bingoThread.marcarNumero(cli);
-                
-                if(res == true){
-                    atualizarStatus("[CLIENTE "+ json.getNome() + "]: Tem o número.");
-                } else{
-                     atualizarStatus("[CLIENTE "+ json.getNome() + "]: Nao tem o numero. Mentiu!");
+
+                if (res == true) {
+                    atualizarStatus("[CLIENTE " + json.getNome() + "]: Tem o número.");
+                } else {
+                    atualizarStatus("[CLIENTE " + json.getNome() + "]: Nao tem o numero. Mentiu!");
                 }
             }
         } catch (Exception e) {
 
         }
     }
-    
-    public void pausarBingo(){
+
+    public void pausarBingo() {
         bingoThread.pausarBingo();
     }
 }
