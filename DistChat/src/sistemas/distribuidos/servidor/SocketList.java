@@ -242,6 +242,10 @@ public class SocketList {
 
     private void enviarTempo() throws IOException {
 
+        if (bingoThread == null) {
+            return;
+        }
+
         if (bingoThread.isStarted() == false) {
             JsonConvert json = new JsonConvert();
             json.setCod("tempo");
@@ -288,6 +292,8 @@ public class SocketList {
     }
 
     public void pausarBingo() {
-        bingoThread.pausarBingo();
+        if (bingoThread != null) {
+            bingoThread.pausarBingo();
+        }
     }
 }
