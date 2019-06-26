@@ -83,6 +83,13 @@ public class ClienteThread extends Thread {
             case "sorteado":
                 tela.mostraSorteado(json.getCartelaNum());
                 break;
+            case "rpronto":
+                if(json.getMsg()!=null){
+                    if (json.getStatus().equals("false") || json.getStatus().equals("falha")) {
+                        tela.jogoIniciado(json.getMsg());
+                    }
+                }
+                break;
         }
     }
 
