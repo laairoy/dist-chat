@@ -177,6 +177,9 @@ public class SocketList {
     }
 
     public synchronized boolean addBingo(Socket cli, JsonConvert json) throws IOException {
+        if(list.containsKey(cli) == false){
+            return false;
+        }
         if (listBingo.containsKey(cli) == false) {
             JsonConvert confirmar = new JsonConvert();
             confirmar.setCod("rpronto");
