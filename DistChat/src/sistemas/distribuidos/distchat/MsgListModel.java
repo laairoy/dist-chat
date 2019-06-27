@@ -13,6 +13,8 @@ import javax.swing.AbstractListModel;
  * @author laairoy
  */
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import javax.swing.AbstractListModel;
 
 /**
@@ -35,7 +37,7 @@ public class MsgListModel extends AbstractListModel {
         return list;
     }
 
-    public void addElement(String nome, String msg) {
+    public synchronized void addElement(String nome, String msg) {
 
         aList.add(nome + ": " + msg);
         fireIntervalAdded(this, aList.size() - 1, aList.size() - 1);

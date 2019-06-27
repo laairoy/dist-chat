@@ -90,7 +90,7 @@ public class JsonConvert {
         try {
             msg = json.getString("MSG");
         } catch (JSONException e) {
-            printErro(e);
+            //msg = "";
         }
         return msg;
     }
@@ -140,7 +140,7 @@ public class JsonConvert {
         ArrayList<Integer> temp = new ArrayList<>();
         temp.add(num);
         json.put("CARTELA", temp.toArray());
-       // json.put("CARTELA", num);
+        // json.put("CARTELA", num);
     }
 
     public int getCartelaNum() {

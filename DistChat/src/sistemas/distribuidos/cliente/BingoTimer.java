@@ -5,26 +5,20 @@
  */
 package sistemas.distribuidos.cliente;
 
-import sistemas.distribuidos.servidor.*;
-import java.io.IOException;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
  *
  * @author laairoy
  */
-public class BingoThread extends Thread {
+public class BingoTimer extends Thread {
 
     private boolean started;
     private int count;
     private boolean run;
     UIClienteChat cliente;
 
-    public BingoThread(UIClienteChat cliente) {
+    public BingoTimer(UIClienteChat cliente) {
         this.cliente = cliente;
         clear();
     }
@@ -39,12 +33,6 @@ public class BingoThread extends Thread {
 
     private void atualizaTempo() {
         cliente.atualizarTempo(count);
-        //SocketList sList = SocketList.init();
-        //sList.atualizarTempo(count);
-    }
-
-    public boolean isStarted() {
-        return started;
     }
 
     public void setRun(boolean var) {
@@ -53,7 +41,7 @@ public class BingoThread extends Thread {
 
     @Override
     public void run() {
-        while (run) {
+        while (run == true) {
 
             try {
                 TimeUnit.SECONDS.sleep(1);

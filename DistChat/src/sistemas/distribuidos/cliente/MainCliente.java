@@ -5,11 +5,6 @@
  */
 package sistemas.distribuidos.cliente;
 
-import java.io.IOException;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.Scanner;
-
 /**
  *
  * @author laairoy

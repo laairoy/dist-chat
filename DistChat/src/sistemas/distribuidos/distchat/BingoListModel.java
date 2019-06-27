@@ -12,16 +12,15 @@ import javax.swing.AbstractListModel;
  *
  * @author laairoy
  */
-
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import javax.swing.AbstractListModel;
 
 /**
  *
  * @author laairoy
  */
-
-
 public class BingoListModel extends AbstractListModel {
 
     private static BingoListModel list;
@@ -36,6 +35,17 @@ public class BingoListModel extends AbstractListModel {
             list = new BingoListModel();
         }
         return list;
+    }
+
+    public synchronized void addAll(List<Object> list) {
+        removeAll();
+
+        for (Object obj : list) {
+            Map<String, String> temp = (Map<String, String>) obj;
+            aList.add(new DadosCliente(temp.get("NOME"), temp.get("IP"), Integer.parseInt(temp.get("PORTA"))));
+        }
+        //aList.addAll(list);
+        fireIntervalAdded(this, aList.size() - 1, aList.size() - 1);
     }
 
     public void addElement(String nome, String ip, int porta) {

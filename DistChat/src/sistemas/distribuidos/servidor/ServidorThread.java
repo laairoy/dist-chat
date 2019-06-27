@@ -70,48 +70,54 @@ public class ServidorThread extends Thread {
     private void verificarOperacao(String msg) throws IOException {
         SocketList sList = SocketList.init(tela);
         JsonConvert json = new JsonConvert(msg);
-        switch (json.getCod()) {
-            case "login":
-                if (sList.add(cliente, json)) {
-                    atualizarStatus("[LOGIN] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]" + " Usuario: " + json.getNome());
+        
+        //erro quando json for invalido! linha 45 do jsonconvert
+        try {
+            switch (json.getCod()) {
+                case "login":
+                    if (sList.add(cliente, json)) {
+                        atualizarStatus("[LOGIN] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]" + " Usuario: " + json.getNome());
 
-                }
-                break;
+                    }
+                    break;
 
-            case "logout":
-                if (sList.remove(cliente)) {
-                    atualizarStatus("[LOGOUT] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
+                case "logout":
+                    if (sList.remove(cliente)) {
+                        atualizarStatus("[LOGOUT] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
 
-                }
-                break;
-            case "chat":
-                if (json.getStatus().equals("uni")) {
-                    sList.msgUnicast(cliente, json);
-                } else {
-                    sList.msgBroadCast(cliente, json);
-                }
+                    }
+                    break;
+                case "chat":
+                    if (json.getStatus().equals("uni")) {
+                        sList.msgUnicast(cliente, json);
+                    } else {
+                        sList.msgBroadCast(cliente, json);
+                    }
 
-                break;
-            case "pronto":
-                switch (json.getStatus()) {
-                    case "sucesso":
-                        if (sList.addBingo(cliente, json)) {
-                            atualizarStatus("[LOGIN BINGO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]" + " Usuario: " + json.getNome());
+                    break;
+                case "pronto":
+                    switch (json.getStatus()) {
+                        case "sucesso":
+                            if (sList.addBingo(cliente, json)) {
+                                atualizarStatus("[LOGIN BINGO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]" + " Usuario: " + json.getNome());
 
-                        }
-                        break;
-                    case "falha":
-                        if (sList.removeBingo(cliente)) {
-                            atualizarStatus("[LOGOUT BINGO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
+                            }
+                            break;
+                        case "falha":
+                            if (sList.removeBingo(cliente)) {
+                                atualizarStatus("[LOGOUT BINGO] <- " + "[" + cliente.getInetAddress() + ":" + cliente.getPort() + "]");
 
-                        }
-                        break;
-                }
-                break;
-            case "marca":
-                //System.out.println("marcando!!!");
-                sList.marcarNumero(cliente, json);
-                break;
+                            }
+                            break;
+                    }
+                    break;
+                case "marca":
+                    //System.out.println("marcando!!!");
+                    sList.marcarNumero(cliente, json);
+                    break;
+            }
+        } catch (Exception e) {
+            System.out.println("[Erro]: " + e);
         }
     }
 

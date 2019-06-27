@@ -20,7 +20,7 @@ import sistemas.distribuidos.distchat.MsgListModel;
  * @author laairoy
  */
 public class UIClienteChat extends javax.swing.JFrame {
-    
+
     private final String nome;
     private Cliente cliente;
     private int sorteado;
@@ -34,38 +34,38 @@ public class UIClienteChat extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     public UIClienteChat(String nome) {
-        
+
         ClienteListModel list = ClienteListModel.init();
         MsgListModel listMsgModel = MsgListModel.init();
         BingoListModel bingoList = BingoListModel.init();
-        
+
         initComponents();
         cbBroadcast.setSelected(true);
         getRootPane().setDefaultButton(btEnviar);
-        
+
         this.nome = nome;
-        
+
         listClientes.setModel(list);
         listClientes.setVisibleRowCount(10);
-        
+
         listMsg.setModel(listMsgModel);
-        
+
         listJogadores.setModel(bingoList);
         listJogadores.setVisibleRowCount(10);
-        
+
         bSairBingo.setEnabled(false);
         b12.setEnabled(false);
-        
+
         resetTela();
     }
-    
+
     public void resetTela() {
         bMarcar.setEnabled(false);
         bNaoMarcar.setEnabled(false);
         bBingo.setEnabled(false);
         lSorteio.setText("00");
     }
-    
+
     public void initCliente() {
         try {
             this.cliente = Cliente.init();
@@ -73,7 +73,7 @@ public class UIClienteChat extends javax.swing.JFrame {
             Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void aguardarJogadores() {
         /*   for(int t = 30; t >= 0; t--) {
            try {
@@ -85,7 +85,7 @@ public class UIClienteChat extends javax.swing.JFrame {
            }
        }*/
     }
-    
+
     public void mostrarCartela(int[] cartela) {
         if (cartela.length == 25) {
             this.cartela = cartela;
@@ -123,11 +123,11 @@ public class UIClienteChat extends javax.swing.JFrame {
             } catch (IOException ex) {
                 Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
-        
+
     }
-    
+
     public void mostraSorteado(int sorteado) {
         this.sorteado = sorteado;
         lSorteio.setText(Integer.toString(sorteado));
@@ -135,7 +135,7 @@ public class UIClienteChat extends javax.swing.JFrame {
         bNaoMarcar.setEnabled(true);
         bBingo.setEnabled(true);
     }
-    
+
     public void verificaNumCartela() {
         if (cartela != null) {
             if (cartela[0] == sorteado) {
@@ -215,7 +215,7 @@ public class UIClienteChat extends javax.swing.JFrame {
             }
         }
     }
-    
+
     public void jogoIniciado(String msg) {
         JOptionPane.showMessageDialog(rootPane, msg);
         bEntrarBingo.setEnabled(true);
@@ -841,13 +841,13 @@ public class UIClienteChat extends javax.swing.JFrame {
     private void cbBroadcastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbBroadcastActionPerformed
 
     }//GEN-LAST:event_cbBroadcastActionPerformed
-    
+
     public void atualizarTempo(int count) {
         lTempo.setText(count + "");
     }
-    
+
     private void btEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEnviarActionPerformed
-        
+
         if (tfEnviar.getText().isEmpty() == false) {
             try {
                 if (cbBroadcast.isSelected()) {
@@ -872,24 +872,26 @@ public class UIClienteChat extends javax.swing.JFrame {
     }//GEN-LAST:event_cbBroadcastStateChanged
 
     private void bLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bLogoutActionPerformed
-        
+
         try {
             cliente.logout(this.nome);
-            
-            this.dispose();
+            //this.dispose();
         } catch (IOException ex) {
-            Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+            System.out.println("[ERRO]: " + ex);
+        }
 
     }//GEN-LAST:event_bLogoutActionPerformed
-
+    public void closeApplication() {
+        this.dispose();
+        System.exit(0);
+    }
     private void bEntrarBingoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEntrarBingoActionPerformed
         // TODO add your handling code here:
         try {
             cliente.loginBingo(nome);
             bEntrarBingo.setEnabled(false);
             bSairBingo.setEnabled(true);
-            
+
         } catch (IOException ex) {
             Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -905,11 +907,11 @@ public class UIClienteChat extends javax.swing.JFrame {
 
     private void bNaoMarcarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNaoMarcarActionPerformed
         try {
-            
+
             cliente.marca(nome, "falha", sorteado);
             bMarcar.setEnabled(false);
             bNaoMarcar.setEnabled(false);
-            
+
         } catch (IOException ex) {
             Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
         }  // TODO add your handling code here:
@@ -921,30 +923,30 @@ public class UIClienteChat extends javax.swing.JFrame {
 
     private void bSairBingoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSairBingoActionPerformed
         try {
-            
+
             cliente.logoutBingo(nome);
             bSairBingo.setEnabled(false);
             bEntrarBingo.setEnabled(true);
             resetTela();
-            
+
         } catch (IOException ex) {
             Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
         }        // TODO add your handling code here:
     }//GEN-LAST:event_bSairBingoActionPerformed
 
     private void bMarcarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bMarcarActionPerformed
-        
+
         try {
             cliente.marca(nome, "sucesso", sorteado);
             bMarcar.setEnabled(false);
             bNaoMarcar.setEnabled(false);
-            
+
         } catch (IOException ex) {
             Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
-        }        
-        
+        }
+
         verificaNumCartela();
-        
+
 
     }//GEN-LAST:event_bMarcarActionPerformed
 

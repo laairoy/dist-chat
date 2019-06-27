@@ -53,7 +53,7 @@ public class SocketList {
         return socketList;
     }
 
-    public boolean add(Socket cli, JsonConvert json) throws IOException {
+    public synchronized boolean add(Socket cli, JsonConvert json) throws IOException {
         if (list.containsKey(cli) == false) {
 
             list.put(cli, json.getNome());
@@ -65,13 +65,14 @@ public class SocketList {
             enviarMsg(cli, confirmar.toString());
 
             enviarLista();
+            enviarListaBingo();
 
             return true;
         }
         return false;
     }
 
-    public boolean remove(Socket cli) throws IOException {
+    public synchronized boolean remove(Socket cli) throws IOException {
         JsonConvert logout = new JsonConvert();
         if (list.containsKey(cli) == true) {
             removeBingo(cli);
@@ -175,7 +176,7 @@ public class SocketList {
         enviarBroadcast(json.toString(), list);
     }
 
-    public boolean addBingo(Socket cli, JsonConvert json) throws IOException {
+    public synchronized boolean addBingo(Socket cli, JsonConvert json) throws IOException {
         if (listBingo.containsKey(cli) == false) {
             JsonConvert confirmar = new JsonConvert();
             confirmar.setCod("rpronto");
@@ -207,7 +208,7 @@ public class SocketList {
         return false;
     }
 
-    public boolean removeBingo(Socket cli) throws IOException {
+    public synchronized boolean removeBingo(Socket cli) throws IOException {
         JsonConvert logout = new JsonConvert();
         if (listBingo.containsKey(cli) == true) {
 
@@ -281,9 +282,9 @@ public class SocketList {
                 boolean res = bingoThread.marcarNumero(cli);
                 //System.out.println("testes: " + res);
                 if (res == true) {
-                    atualizarStatus("[CLIENTE " + json.getNome() + "]: Tem o número.");
+                    atualizarStatus("[CLIENTE " + json.getNome() + "]: Tem o número!");
                 } else {
-                    atualizarStatus("[CLIENTE " + json.getNome() + "]: Nao tem o numero. Mentiu!");
+                    atualizarStatus("[CLIENTE " + json.getNome() + "]: Nao tem o numero!");
                 }
             }
         } catch (Exception e) {

@@ -8,9 +8,11 @@ package sistemas.distribuidos.servidor;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import javafx.collections.transformation.SortedList;
 
 /**
  *
@@ -42,26 +44,28 @@ public class BingoThread extends Thread {
         for (Socket sock : listaCartelas.keySet()) {
             Map<Integer, Boolean> temp = new HashMap<>();
             ArrayList<Integer> cartela = new ArrayList<>();
+            
             int range = 1;
 
             for (int i = 0; i < 25; i++) {
                 int num;
-                if (i == 12) {
-                    num = 0;
-                } else {
-                    do {
-                        num = (int) (Math.random() * 15 + range);
-                    } while (temp.containsKey(num) == true);
-                    temp.put(num, false);
-                }
-
-                cartela.add(num);
 
                 if (i != 0 && i % 5 == 0) {
                     // System.out.println("num: " + i);
                     range += 15;
                 }
+
+                do {
+                    num = (int) (Math.random() * 15 + range);
+                } while (temp.containsKey(num) == true);
+                temp.put(num, false);
+
+                cartela.add(num);
+
             }
+            Collections.sort(cartela);
+            cartela.set(12, 0);
+
             listaCartelas.replace(sock, temp);
             SocketList sList = SocketList.init();
 
@@ -135,9 +139,10 @@ public class BingoThread extends Thread {
         System.out.println("[Bingo] pausa: " + pausa);
     }
 
-    public boolean isStarted(){
+    public boolean isStarted() {
         return started;
     }
+
     @Override
     public void run() {
         while (listaCartelas.size() > 0) {

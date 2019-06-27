@@ -9,8 +9,6 @@ import sistemas.distribuidos.distchat.ClienteListModel;
 import java.io.InputStream;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +25,7 @@ public class ClienteThread extends Thread {
 
     private final InputStream entradaDados;
     private UIClienteChat tela;
+    private BingoTimer bingo = null;
 
     public ClienteThread(InputStream entradaDados, UIClienteChat tela) {
         this.entradaDados = entradaDados;
@@ -47,56 +46,73 @@ public class ClienteThread extends Thread {
 
     private void verificarOperacao(String msg) {
         JsonConvert json = new JsonConvert(msg);
-        BingoThread bingo = new BingoThread(tela);
-        bingo.setRun(true);
-        
 
-        switch (json.getCod()) {
-            case "lista":
-                JSONArray list = json.getList();
-                if (list != null) {
-                    getList(list);
-                }
-                break;
-            case "rlogout":
-                if (json.getStatus().equals("true") || json.getStatus().equals("sucesso")) {
-                    System.exit(0);
-                }
-                break;
-            case "listapronto":
-                JSONArray listp = json.getList();
-                if (listp != null) {
-                    getListBingo(listp);
-                }
-                break;
-            case "chat":
-                JSONArray listm = json.getList();
-                String msgm = json.getMsg();
-                if (listm != null && msgm != null) {
-                    getMsg(listm, msgm);
-                }
-                break;
-            case "tempo":
-                bingo.start();
-
-                break;
-            case "cartela":
-                JSONArray cartela = json.getCartela();
-                if (cartela != null) {
-                    cartelaToTela(cartela);
-                }
-
-                break;
-            case "sorteado":
-                tela.mostraSorteado(json.getCartelaNum());
-                break;
-            case "rpronto":
-                if (json.getMsg() != null) {
-                    if (json.getStatus().equals("false") || json.getStatus().equals("falha")) {
-                        tela.jogoIniciado(json.getMsg());
+        try {
+            switch (json.getCod()) {
+                case "lista":
+                    JSONArray list = json.getList();
+                    if (list != null) {
+                        getList(list);
                     }
-                }
-                break;
+                    break;
+                case "rlogout":
+                    if (json.getStatus().equals("true") || json.getStatus().equals("sucesso")) {
+                        System.exit(0);
+                    }
+                    break;
+                case "listapronto":
+                    JSONArray listp = json.getList();
+                    if (listp != null) {
+                        getListBingo(listp);
+                    }
+                    break;
+                case "chat":
+                    JSONArray listm = json.getList();
+                    String msgm = json.getMsg();
+                    if (listm != null && msgm != null) {
+                        getMsg(listm, msgm);
+                    }
+                    break;
+                case "tempo":
+                    if (bingo != null) {
+                        bingo.setRun(false);
+                    }
+                    bingo = new BingoTimer(tela);
+                    bingo.setRun(true);
+                    bingo.start();
+
+                    break;
+                case "cartela":
+                    JSONArray cartela = json.getCartela();
+                    if (cartela != null) {
+                        cartelaToTela(cartela);
+                        try {
+                            // bingo.setStarted(true);
+                        } catch (Exception e) {
+                        }
+                    }
+
+                    break;
+                case "sorteado":
+                    tela.mostraSorteado(json.getCartelaNum());
+                    break;
+                case "rpronto":
+                    if (json.getMsg() != null) {
+                        if (json.getStatus().equals("false") || json.getStatus().equals("falha")) {
+                            tela.jogoIniciado(json.getMsg());
+                        }
+                    } else if (json.getStatus().equals("falha")) {
+
+                        if (bingo != null) {
+                            bingo.setRun(false);
+                            bingo = null;
+
+                        }
+                    }
+                    break;
+            }
+        } catch (Exception e) {
+            System.out.println("[ERRO]: " + e);
         }
     }
 
@@ -108,17 +124,22 @@ public class ClienteThread extends Thread {
             listMsg.addElement(temp.getString("NOME"), msg);
             //System.out.println(temp.getString("NOME") + msg);
             TimeUnit.MILLISECONDS.sleep(10);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ClienteThread.class.getName()).log(Level.SEVERE, null, ex);
         } catch (JSONException e) {
-            System.out.println("erro");
+            System.out.println("[ERRO]: " + e);
+        } catch (InterruptedException ex) {
+            System.out.println("[ERRO]: " + ex);
         }
     }
 
     private void getList(JSONArray lista) {
+        if (lista.length() < 1) {
+            return;
+        }
         ClienteListModel cliList = ClienteListModel.init();
-        cliList.removeAll();
 
+        cliList.addAll(lista.toList());
+//        cliList.removeAll();
+        /*
         for (Object json : lista) {
             try {
                 JSONObject temp = new JSONObject(json.toString());
@@ -129,27 +150,32 @@ public class ClienteThread extends Thread {
             } catch (NumberFormatException | JSONException e) {
                 System.out.println("erro");
             }
-        }
+        }*/
 
     }
 
     private void getListBingo(JSONArray lista) {
-        BingoListModel bingoList = BingoListModel.init();
-        bingoList.removeAll();
-
-        for (Object json : lista) {
-            try {
-                JSONObject temp = new JSONObject(json.toString());
-                bingoList.addElement(temp.getString("NOME"), temp.getString("IP"), temp.getInt("PORTA"));
-
-                TimeUnit.MILLISECONDS.sleep(10);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(ClienteThread.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (JSONException e) {
-                System.out.println("JSON INVALIDO");
-            }
-
+        if (lista.length() < 1) {
+            return;
         }
+
+        BingoListModel bingoList = BingoListModel.init();
+        bingoList.addAll(lista.toList());
+//        bingoList.removeAll();
+//        
+//        for (Object json : lista) {
+//            try {
+//                JSONObject temp = new JSONObject(json.toString());
+//                bingoList.addElement(temp.getString("NOME"), temp.getString("IP"), temp.getInt("PORTA"));
+//                
+//                TimeUnit.MILLISECONDS.sleep(10);
+//            } catch (InterruptedException ex) {
+//                Logger.getLogger(ClienteThread.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (JSONException e) {
+//                System.out.println("JSON INVALIDO");
+//            }
+//            
+//        }
 
     }
 
