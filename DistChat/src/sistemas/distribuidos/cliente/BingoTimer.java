@@ -26,7 +26,7 @@ public class BingoTimer extends Thread {
     private void clear() {
         this.started = false;
 
-        this.count = 0;
+        this.count = 30;
         atualizaTempo();
         this.run = false;
     }
@@ -41,21 +41,21 @@ public class BingoTimer extends Thread {
 
     @Override
     public void run() {
+        
         while (run == true) {
-
+            count--;
+            atualizaTempo();
             try {
-                TimeUnit.SECONDS.sleep(1);
-
-                count++;
-                atualizaTempo();
+                TimeUnit.SECONDS.sleep(1);                
                 //System.out.println("Tempo: " + count);
-                if (started == false && count == 30) {
+                if (started == false && count == 0) {
                     started = true;
-                    count = 0;
-                } else if (started == true && count == 10) {
-                    count = 0;
+                    count = 10;
+                } else if (started == true && count == 0) {
+                    count = 10;
                 }
-
+                
+                
             } catch (InterruptedException ex) {
                 System.out.print(ex);
 
