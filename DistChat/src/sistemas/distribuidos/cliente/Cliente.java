@@ -132,4 +132,14 @@ public class Cliente {
           
         enviarMSG(json.toString());
     }
+    
+    public void bingo(String nome) throws IOException {
+
+        JsonConvert json = new JsonConvert();
+        json.setNome(nome);
+        json.setCod("bingo");
+
+        enviarMSG(json.toString());
+
+    }
 }

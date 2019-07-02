@@ -61,7 +61,7 @@ public class UIClienteChat extends javax.swing.JFrame {
 
     public void resetTela() {
         bMarcar.setEnabled(false);
-        bNaoMarcar.setEnabled(false);
+        //bNaoMarcar.setEnabled(false);
         bBingo.setEnabled(false);
         lSorteio.setText("00");
         lTempo.setText("Aguarde 0 segundos");
@@ -122,7 +122,7 @@ public class UIClienteChat extends javax.swing.JFrame {
         this.sorteado = sorteado;
         lSorteio.setText(Integer.toString(sorteado));
         bMarcar.setEnabled(true);
-        bNaoMarcar.setEnabled(true);
+        //bNaoMarcar.setEnabled(true);
         bBingo.setEnabled(true);
     }
 
@@ -216,6 +216,11 @@ public class UIClienteChat extends javax.swing.JFrame {
     public void atualizarTempo(int count) {
         lTempo.setText("Aguarde " + count + " segundos");
     }
+    
+    
+    public void ganhouBingo(String nome){
+        JOptionPane.showMessageDialog(rootPane, nome + " ganhou o bingo!");
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -277,7 +282,6 @@ public class UIClienteChat extends javax.swing.JFrame {
         b23 = new javax.swing.JButton();
         b24 = new javax.swing.JButton();
         bMarcar = new javax.swing.JButton();
-        bNaoMarcar = new javax.swing.JButton();
         jPanel10 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         listJogadores = new javax.swing.JList<>();
@@ -687,14 +691,6 @@ public class UIClienteChat extends javax.swing.JFrame {
             }
         });
 
-        bNaoMarcar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        bNaoMarcar.setText("Não marcar");
-        bNaoMarcar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bNaoMarcarActionPerformed(evt);
-            }
-        });
-
         jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(null, "Lista de jogadores", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18)), "Lista de Jogadores", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
 
         listJogadores.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -718,6 +714,11 @@ public class UIClienteChat extends javax.swing.JFrame {
 
         bBingo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         bBingo.setText("Bingo!");
+        bBingo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bBingoActionPerformed(evt);
+            }
+        });
 
         lTempo.setFont(new java.awt.Font("Tahoma", 2, 18)); // NOI18N
         lTempo.setText("Tempo");
@@ -728,17 +729,13 @@ public class UIClienteChat extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lSorteio)
                         .addGap(18, 18, 18)
-                        .addComponent(bMarcar, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bNaoMarcar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(bBingo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(bMarcar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -748,14 +745,16 @@ public class UIClienteChat extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bBingo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(210, 210, 210)
                 .addComponent(lTempo, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(148, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -767,7 +766,6 @@ public class UIClienteChat extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(bMarcar)
-                                .addComponent(bNaoMarcar)
                                 .addComponent(bBingo, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
@@ -897,18 +895,6 @@ public class UIClienteChat extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btEnviarKeyPressed
 
-    private void bNaoMarcarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNaoMarcarActionPerformed
-        try {
-
-            cliente.marca(nome, "falha", sorteado);
-            bMarcar.setEnabled(false);
-            bNaoMarcar.setEnabled(false);
-
-        } catch (IOException ex) {
-            Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
-        }  // TODO add your handling code here:
-    }//GEN-LAST:event_bNaoMarcarActionPerformed
-
     private void listJogadoresValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listJogadoresValueChanged
         // TODO add your handling code here:
     }//GEN-LAST:event_listJogadoresValueChanged
@@ -931,7 +917,7 @@ public class UIClienteChat extends javax.swing.JFrame {
         try {
             cliente.marca(nome, "sucesso", sorteado);
             bMarcar.setEnabled(false);
-            bNaoMarcar.setEnabled(false);
+            //bNaoMarcar.setEnabled(false);
 
         } catch (IOException ex) {
             Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
@@ -941,6 +927,18 @@ public class UIClienteChat extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_bMarcarActionPerformed
+
+    private void bBingoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBingoActionPerformed
+        try {
+            cliente.bingo(nome);
+            bMarcar.setEnabled(false);
+            bBingo.setEnabled(false);
+            //bNaoMarcar.setEnabled(false);
+
+        } catch (IOException ex) {
+            Logger.getLogger(UIClienteChat.class.getName()).log(Level.SEVERE, null, ex);
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_bBingoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -973,7 +971,6 @@ public class UIClienteChat extends javax.swing.JFrame {
     private javax.swing.JButton bEntrarBingo;
     private javax.swing.JButton bLogout;
     private javax.swing.JButton bMarcar;
-    private javax.swing.JButton bNaoMarcar;
     private javax.swing.JButton bSairBingo;
     private javax.swing.JButton btEnviar;
     private javax.swing.JCheckBox cbBroadcast;

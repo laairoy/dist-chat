@@ -110,6 +110,14 @@ public class ClienteThread extends Thread {
                         }
                     }
                     break;
+                case "rbingo":
+                    JSONArray gritouBingo = json.getList();
+                    if (gritouBingo != null){
+                        if (json.getStatus().equals("sucesso")) {
+                            ganhouBingo(gritouBingo);
+                        }
+                    }                    
+                    break;
             }
         } catch (Exception e) {
             System.out.println("[ERRO]: " + e);
@@ -186,5 +194,20 @@ public class ClienteThread extends Thread {
         }
         tela.mostrarCartela(temp);
 
+    }
+    
+    
+    public void ganhouBingo(JSONArray gritouBingo){
+        
+        try {
+            JSONObject temp = new JSONObject(gritouBingo.get(0).toString());
+            tela.ganhouBingo(temp.getString("NOME"));
+            
+            TimeUnit.MILLISECONDS.sleep(10);
+        } catch (JSONException e) {
+            System.out.println("[ERRO]: " + e);
+        } catch (InterruptedException ex) {
+            System.out.println("[ERRO]: " + ex);
+        }
     }
 }
