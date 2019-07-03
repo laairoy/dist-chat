@@ -105,6 +105,25 @@ public class BingoThread extends Thread {
         listaCartelas.get(cli).replace(numSorteado, true);
         return true;
     }
+    
+    
+    public boolean jogadorGanhou(Socket cli) {
+        int cont = 0;
+        for(int i = 0; i<numSorteados.size(); i++){
+            if (listaCartelas.get(cli).containsKey(numSorteados.get(i))) {
+                if(listaCartelas.get(cli).get(numSorteados.get(i)) == true){
+                    cont++;
+                }
+            }
+        }
+        
+        
+        if (cont >= 3)
+            return true;
+        else
+            return false;
+    }
+    
 
     public int removerJogador(Socket sock) {
         listaCartelas.remove(sock);

@@ -295,6 +295,48 @@ public class SocketList {
             System.out.print("[ERRO]: " + e);
         }
     }
+    
+    
+    public void jogadorGanhou(Socket cli, JsonConvert recebido) {
+        try {
+            JsonConvert json = new JsonConvert();
+            if (bingoThread.jogadorGanhou(cli)){
+                atualizarStatus("[GANHADOR BINGO]: " + recebido.getNome());
+                
+                // enviar rbingo sucesso
+                json.setCod("rbingo");
+                json.setStatus("sucesso");
+                json.addToList(recebido.getNome(), cli.getInetAddress().toString(), cli.getPort());
+
+                enviarBroadcast(json.toString(), listBingo);
+                
+                // retirar todos os clientes do bingo (rpronto falha msg)
+                removeTodosBingo();
+                
+            } else {
+                atualizarStatus("[não GANHADOR BINGO]: " + recebido.getNome());
+
+                // enviar rbingo falha
+                json.setCod("rbingo");
+                json.setStatus("falha");
+                json.addToList(recebido.getNome(), cli.getInetAddress().toString(), cli.getPort());
+
+                enviarBroadcast(json.toString(), listBingo);
+            }
+        } catch (Exception e) {
+            System.out.print("[ERRO]: " + e);
+        }
+        
+        
+    }
+    
+    
+    public void removeTodosBingo() throws IOException {
+        
+        for (Map.Entry<Socket, String> entry : listBingo.entrySet()) {
+            removeBingo(entry.getKey());
+        }
+    }
 
     public void pausarBingo() {
         if (bingoThread != null) {
