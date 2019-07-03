@@ -220,6 +220,9 @@ public class UIClienteChat extends javax.swing.JFrame {
     
     public void ganhouBingo(String nome){
         JOptionPane.showMessageDialog(rootPane, nome + " ganhou o bingo!");
+        resetTela();
+        bSairBingo.setEnabled(false);
+        bEntrarBingo.setEnabled(true);
     }
     /**
      * This method is called from within the constructor to initialize the form.

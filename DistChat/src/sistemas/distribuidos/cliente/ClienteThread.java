@@ -163,12 +163,15 @@ public class ClienteThread extends Thread {
     }
 
     private void getListBingo(JSONArray lista) {
+        
+        BingoListModel bingoList = BingoListModel.init();
         if (lista.length() < 1) {
+            bingoList.removeAll();
             return;
         }
 
-        BingoListModel bingoList = BingoListModel.init();
         bingoList.addAll(lista.toList());
+        
 //        bingoList.removeAll();
 //        
 //        for (Object json : lista) {
