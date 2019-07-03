@@ -163,9 +163,9 @@ public class ClienteThread extends Thread {
     }
 
     private void getListBingo(JSONArray lista) {
-        if (lista.length() < 1) {
-            return;
-        }
+//        if (lista.length() < 1) {
+//            return;
+//        }
 
         BingoListModel bingoList = BingoListModel.init();
         bingoList.addAll(lista.toList());

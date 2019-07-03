@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import javax.swing.table.DefaultTableModel;
 import org.json.JSONObject;
 import sistemas.distribuidos.distchat.JsonConvert;
 
@@ -177,7 +178,7 @@ public class SocketList {
     }
 
     public synchronized boolean addBingo(Socket cli, JsonConvert json) throws IOException {
-        if(list.containsKey(cli) == false){
+        if (list.containsKey(cli) == false) {
             return false;
         }
         if (listBingo.containsKey(cli) == false) {
@@ -219,7 +220,7 @@ public class SocketList {
             int size = bingoThread.removerJogador(cli);
             if (size == 0) {
                 bingoThread = null;
-
+                tela.resetNumeros();
             }
 
             logout.setCod("rpronto");
@@ -299,5 +300,28 @@ public class SocketList {
         if (bingoThread != null) {
             bingoThread.pausarBingo();
         }
+    }
+
+    public void atualizarNumeros(Map<Socket, Map<Integer, Boolean>> cartela) {
+        ArrayList<String[]> nModel = new ArrayList<>();
+
+        for (Map.Entry<Socket, Map<Integer, Boolean>> entry : cartela.entrySet()) {
+            String numeros = "1 2 3 4 5 6 7 8 9 10 11 12 13 14";
+
+            for (Map.Entry<Integer, Boolean> nEntry : entry.getValue().entrySet()) {
+                if (nEntry.getValue() == true) {
+                    numeros += nEntry.getKey() + " ";
+                }
+            }
+
+            String[] temp = {listBingo.get(entry.getKey()), numeros};
+
+            // System.out.println("Nome Cliente: " + listBingo.get(entry.getKey()));
+            //System.out.println("Cartela: " + entry.getValue().toString());
+            nModel.add(temp);
+        }
+
+        tela.atualizaNumeros(nModel);
+
     }
 }

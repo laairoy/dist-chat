@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import javafx.collections.transformation.SortedList;
 
 /**
  *
@@ -44,7 +43,7 @@ public class BingoThread extends Thread {
         for (Socket sock : listaCartelas.keySet()) {
             Map<Integer, Boolean> temp = new HashMap<>();
             ArrayList<Integer> cartela = new ArrayList<>();
-            
+
             int range = 1;
 
             for (int i = 0; i < 25; i++) {
@@ -157,11 +156,12 @@ public class BingoThread extends Thread {
                         started = true;
                         count = 0;
                         sortearCartelas();
+                        SocketList.init().atualizarNumeros(listaCartelas);
 
                     } else if (started == true && count == 10) {
                         count = 0;
-
                         numSorteado = sortearNumero();
+                        SocketList.init().atualizarNumeros(listaCartelas);
 
                     }
                 }
