@@ -333,8 +333,8 @@ public class SocketList {
     
     public void removeTodosBingo() throws IOException {
         
-        for (Map.Entry<Socket, String> entry : listBingo.entrySet()) {
-            removeBingo(entry.getKey());
+        for (Socket entry : listBingo.keySet()) {
+            removeBingo(entry);
         }
     }
 
@@ -348,7 +348,7 @@ public class SocketList {
         ArrayList<String[]> nModel = new ArrayList<>();
 
         for (Map.Entry<Socket, Map<Integer, Boolean>> entry : cartela.entrySet()) {
-            String numeros = "1 2 3 4 5 6 7 8 9 10 11 12 13 14";
+            String numeros = "";
 
             for (Map.Entry<Integer, Boolean> nEntry : entry.getValue().entrySet()) {
                 if (nEntry.getValue() == true) {
