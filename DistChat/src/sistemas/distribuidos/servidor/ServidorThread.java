@@ -87,14 +87,15 @@ public class ServidorThread extends Thread {
 
                     }
                     break;
+                    
                 case "chat":
                     if (json.getStatus().equals("uni")) {
                         sList.msgUnicast(cliente, json);
                     } else {
                         sList.msgBroadCast(cliente, json);
                     }
-
                     break;
+                    
                 case "pronto":
                     switch (json.getStatus()) {
                         case "sucesso":
@@ -111,10 +112,17 @@ public class ServidorThread extends Thread {
                             break;
                     }
                     break;
+                    
                 case "marca":
                     //System.out.println("marcando!!!");
                     sList.marcarNumero(cliente, json);
                     break;
+                    
+                case "bingo":
+                    //veriricar se cliente ganhou o bingo
+                    sList.jogadorGanhou(cliente, json);
+                    break;
+                    
             }
         } catch (Exception e) {
             System.out.println("[Erro]: " + e);
