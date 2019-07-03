@@ -10,10 +10,12 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import javax.swing.table.DefaultTableModel;
 import org.json.JSONObject;
+import sistemas.distribuidos.distchat.BingoListModel;
 import sistemas.distribuidos.distchat.JsonConvert;
 
 /**
@@ -282,7 +284,7 @@ public class SocketList {
     public void marcarNumero(Socket cli, JsonConvert json) {
         try {
             //int num = json.getCartelaNum();
-            if (json.getStatus().equals("sucesso")) {
+            if (json.getStatus().equals("sucesso") && bingoThread != null && listBingo.containsKey(cli) == true) {
                 boolean res = bingoThread.marcarNumero(cli);
                 //System.out.println("testes: " + res);
                 if (res == true) {
@@ -295,47 +297,51 @@ public class SocketList {
             System.out.print("[ERRO]: " + e);
         }
     }
-    
-    
+
     public void jogadorGanhou(Socket cli, JsonConvert recebido) {
         try {
             JsonConvert json = new JsonConvert();
-            if (bingoThread.jogadorGanhou(cli)){
+            if (bingoThread.jogadorGanhou(cli)) {
                 atualizarStatus("[GANHADOR BINGO]: " + recebido.getNome());
-                
+
                 // enviar rbingo sucesso
                 json.setCod("rbingo");
                 json.setStatus("sucesso");
-                json.addToList(recebido.getNome(), cli.getInetAddress().toString(), cli.getPort());
+                json.addToList(listBingo.get(cli), cli.getInetAddress().toString(), cli.getPort());
 
                 enviarBroadcast(json.toString(), listBingo);
-                
+
                 // retirar todos os clientes do bingo (rpronto falha msg)
                 removeTodosBingo();
-                
+
             } else {
                 atualizarStatus("[não GANHADOR BINGO]: " + recebido.getNome());
 
                 // enviar rbingo falha
                 json.setCod("rbingo");
                 json.setStatus("falha");
-                json.addToList(recebido.getNome(), cli.getInetAddress().toString(), cli.getPort());
+                json.addToList(listBingo.get(cli), cli.getInetAddress().toString(), cli.getPort());
 
                 enviarBroadcast(json.toString(), listBingo);
             }
         } catch (Exception e) {
             System.out.print("[ERRO]: " + e);
         }
-        
-        
+
     }
-    
-    
-    public void removeTodosBingo() throws IOException {
-        
-        for (Socket entry : listBingo.keySet()) {
-            removeBingo(entry);
-        }
+
+    public synchronized void removeTodosBingo() throws IOException {
+
+        JsonConvert logout = new JsonConvert();
+
+        listBingo.clear();
+        BingoListModel.init().removeAll();
+        bingoThread.removeAll();
+        bingoThread = null;
+        tela.resetNumeros();
+
+        enviarListaBingo();
+
     }
 
     public void pausarBingo() {

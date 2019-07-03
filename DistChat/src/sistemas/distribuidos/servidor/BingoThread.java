@@ -99,6 +99,7 @@ public class BingoThread extends Thread {
     }
 
     public boolean marcarNumero(Socket cli) {
+        
         if (listaCartelas.get(cli).containsKey(numSorteado) == false) {
             return false;
         }
@@ -133,6 +134,10 @@ public class BingoThread extends Thread {
         }
 
         return listaCartelas.size();
+    }
+    
+    public void removeAll(){
+        listaCartelas.clear();
     }
 
     private void atualizaTempo() {

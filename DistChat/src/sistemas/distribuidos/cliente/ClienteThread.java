@@ -204,7 +204,10 @@ public class ClienteThread extends Thread {
         
         try {
             JSONObject temp = new JSONObject(gritouBingo.get(0).toString());
-            tela.ganhouBingo(temp.getString("NOME"));
+            if (temp.getString("NOME")!=null)
+                tela.ganhouBingo(temp.getString("NOME"));
+            else 
+                tela.ganhouBingo("Alguém");
             
             TimeUnit.MILLISECONDS.sleep(10);
         } catch (JSONException e) {
