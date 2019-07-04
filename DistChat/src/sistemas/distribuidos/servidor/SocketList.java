@@ -257,7 +257,7 @@ public class SocketList {
             JsonConvert json = new JsonConvert();
             json.setCod("tempo");
 
-            enviarBroadcast(json.toString(), listBingo);
+            enviarBroadcast(json.toString(), list);
         }
 
     }
@@ -322,7 +322,7 @@ public class SocketList {
                 json.setStatus("falha");
                 json.addToList(listBingo.get(cli), cli.getInetAddress().toString(), cli.getPort());
 
-                enviarBroadcast(json.toString(), listBingo);
+                enviarMsg(cli,json.toString());
             }
         } catch (Exception e) {
             System.out.print("[ERRO]: " + e);
@@ -331,8 +331,6 @@ public class SocketList {
     }
 
     public synchronized void removeTodosBingo() throws IOException {
-
-        JsonConvert logout = new JsonConvert();
 
         listBingo.clear();
         BingoListModel.init().removeAll();

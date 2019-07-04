@@ -65,6 +65,21 @@ public class UIClienteChat extends javax.swing.JFrame {
         bBingo.setEnabled(false);
         lSorteio.setText("00");
         lTempo.setText("Aguarde 0 segundos");
+        resetCartela();
+    }
+    
+    public void resetCartela(){
+            b0.setText("0");            b1.setText("0");            b2.setText("0");            b3.setText("0");            b4.setText("0");
+            b5.setText("0");            b6.setText("0");            b7.setText("0");            b8.setText("0");            b9.setText("0");
+            b10.setText("0");            b11.setText("0");            b12.setText("0");            b13.setText("0");            b14.setText("0");
+            b15.setText("0");            b16.setText("0");            b17.setText("0");            b18.setText("0");            b19.setText("0");
+            b20.setText("0");            b21.setText("0");            b22.setText("0");            b23.setText("0");            b24.setText("0");
+            
+            b0.setEnabled(true);    b2.setEnabled(true);    b2.setEnabled(true);    b3.setEnabled(true);    b4.setEnabled(true);
+            b5.setEnabled(true);    b6.setEnabled(true);    b7.setEnabled(true);    b8.setEnabled(true);    b9.setEnabled(true);
+            b10.setEnabled(true);    b11.setEnabled(true);    b12.setEnabled(false);    b13.setEnabled(true);    b14.setEnabled(true);
+            b15.setEnabled(true);    b16.setEnabled(true);    b17.setEnabled(true);    b18.setEnabled(true);    b19.setEnabled(true);
+            b20.setEnabled(true);    b21.setEnabled(true);    b22.setEnabled(true);    b23.setEnabled(true);    b24.setEnabled(true); 
     }
 
     public void initCliente() {
@@ -223,6 +238,10 @@ public class UIClienteChat extends javax.swing.JFrame {
         resetTela();
         bSairBingo.setEnabled(false);
         bEntrarBingo.setEnabled(true);
+    }
+    
+    public void naoGanhouBingo(){
+        JOptionPane.showMessageDialog(rootPane, "Você não ganhou o bingo! Continue marcando...");
     }
     /**
      * This method is called from within the constructor to initialize the form.

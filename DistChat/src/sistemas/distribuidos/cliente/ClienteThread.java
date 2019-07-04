@@ -65,6 +65,12 @@ public class ClienteThread extends Thread {
                     if (listp != null) {
                         getListBingo(listp);
                     }
+                    if (listp.isEmpty()){
+                        if (bingo != null) {
+                            bingo.setRun(false); // reinicia e pausa o timer se receber listapronto vazia
+                            bingo = null;
+                        }
+                    }
                     break;
                 case "chat":
                     JSONArray listm = json.getList();
@@ -114,7 +120,15 @@ public class ClienteThread extends Thread {
                     JSONArray gritouBingo = json.getList();
                     if (gritouBingo != null){
                         if (json.getStatus().equals("sucesso")) {
+                            
+                            if (bingo != null) {
+                                bingo.setRun(false); // reinicia e pausa o timer do cliente
+                                bingo = null;
+                            }
                             ganhouBingo(gritouBingo);
+                            
+                        } else {
+                            tela.naoGanhouBingo();
                         }
                     }                    
                     break;
