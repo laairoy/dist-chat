@@ -119,7 +119,7 @@ public class BingoThread extends Thread {
         }
         
         
-        if (cont >= 1)
+        if (cont >= 3)
             return true;
         else
             return false;
